@@ -158,6 +158,9 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 .плитка .п_превью{position:absolute;inset:0;background-size:cover;background-position:center;
   opacity:.34;filter:saturate(.85) contrast(1.05);transition:opacity .4s, transform 6s ease-out}
 .плитка:hover .п_превью{opacity:.50;transform:scale(1.06)}
+.п_превью video.живое,.подложка video.живое{position:absolute;inset:0;width:100%;height:100%;
+  object-fit:cover;display:block}
+
 .плитка .п_шторка{position:absolute;inset:0;
   background:linear-gradient(180deg,rgba(4,7,15,.30) 0%,rgba(4,7,15,.08) 30%,rgba(4,7,15,.90) 74%,#04070F 100%)}
 .плитка .п_призрак{position:absolute;right:14px;top:8px;font:700 170px/.78 var(--д);
@@ -181,6 +184,10 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 .плитка .п_кл{font:500 17px var(--д);letter-spacing:.16em;color:#8492B6;
   border:1px solid rgba(132,146,182,.45);padding:6px 14px}
 .плитка:hover .п_кл{color:var(--к);border-color:var(--к)}
+.плитка.пройдена .п_кл{color:var(--к);border-color:var(--к);font-size:0}
+.плитка.пройдена .п_кл::after{content:"ПОКАЗАНО";font-size:20px;letter-spacing:.16em}
+.плитка.пройдена .п_превью{opacity:.20}
+
 .плитка .п_лого{position:relative;min-height:120px;display:flex;flex-direction:column;
   align-items:flex-start;justify-content:flex-end;margin-bottom:22px}
 .плитка .п_лого img{display:block;width:auto;max-width:100%;height:auto}
@@ -210,6 +217,9 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 .р_ном{font:700 26px var(--д);color:var(--акц);width:60px;height:60px;display:grid;place-items:center;
   border:1.5px solid var(--акц)}
 .р_имя{font:700 40px var(--д);letter-spacing:.05em;text-transform:uppercase}
+.р_лого{display:block;width:auto;max-width:340px;object-fit:contain;opacity:.95;
+  margin-left:4px;padding-left:24px;border-left:1px solid var(--линия)}
+.р_комп{margin-left:0!important;padding-left:18px!important;border-left:0!important}
 .р_комп{font:400 19px var(--т);color:#7E8CB0;padding-left:4px;border-left:1px solid var(--линия);margin-left:4px;padding-left:24px}
 .кадры{display:flex;align-items:center;gap:0}
 .кадры i{font-style:normal;font:500 16px var(--д);letter-spacing:.14em;color:#5A6787;text-transform:uppercase;
@@ -255,10 +265,17 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 .медиабокс::after{content:"";position:absolute;right:0;bottom:0;width:28px;height:28px;z-index:3;
   border-right:3px solid var(--акц);border-bottom:3px solid var(--акц)}
 .медподпись{flex:0 0 auto;font:500 19px var(--д);letter-spacing:.05em;color:#94A2C2;padding-top:18px}
-.эскизы{flex:0 0 auto;display:flex;gap:16px;padding-top:16px}
+.след{flex:0 0 auto;padding:18px 0 6px;display:flex;align-items:baseline;gap:26px;flex-wrap:wrap}
+.след .с_метка{font:700 17px var(--д);letter-spacing:.18em;text-transform:uppercase;color:var(--акц);white-space:nowrap}
+.след .с_сп{display:flex;flex-wrap:wrap;gap:12px 26px}
+.след .с_сп span{font:400 22px var(--т);color:#94A2C2;white-space:nowrap}
+.след .с_сп b{font:700 17px var(--д);letter-spacing:.10em;color:var(--акц);margin-right:9px;opacity:.85}
+.эскподпись{flex:0 0 auto;font:500 17px var(--д);letter-spacing:.12em;text-transform:uppercase;
+  color:#5E6B88;padding-top:14px}
+.эскизы{flex:0 0 auto;display:flex;gap:16px;padding-top:12px}
 .эскизы img{width:172px;height:104px;object-fit:cover;border:1px solid var(--линия);cursor:pointer;opacity:.62;transition:.25s}
 .эскизы img:hover,.эскизы img.вкл{opacity:1;border-color:var(--акц)}
-.шаги{width:840px;flex:0 0 840px;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:0}
+.шаги{flex:1 1 auto;min-width:0;min-height:0;display:flex;flex-direction:column;justify-content:center;gap:0}
 .шаги div{position:relative;padding:28px 0 28px 84px;font:400 26px/1.4 var(--т);color:#D3DBF0;
   border-bottom:1px solid var(--линия)}
 .шаги div:first-child{border-top:1px solid var(--линия)}
@@ -337,6 +354,76 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 
 
 /*=== ПРОСИМ ===*/
+/*=== ТИТУЛ ===*/
+.титул{background:radial-gradient(120% 90% at 50% 20%,#0A1734 0%,#04070F 62%)}
+.т_поле{position:absolute;left:96px;right:96px;top:52px;bottom:52px;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;text-align:center}
+.т_знаки{display:flex;align-items:center;gap:56px}
+.т_знаки img{height:190px;display:block;filter:drop-shadow(0 12px 40px rgba(0,0,0,.6))}
+.т_черта{width:1px;height:150px;background:linear-gradient(transparent,rgba(132,146,182,.55),transparent)}
+.т_над{margin-top:40px;font:500 24px var(--д);letter-spacing:.20em;text-transform:uppercase;color:#8DA0C6}
+.т_над span{color:var(--акц)}
+.т_имя{margin-top:34px;font:700 104px/1.08 var(--д);letter-spacing:.01em;color:#F2F6FF}
+.т_под{margin-top:34px;max-width:1900px;font:400 30px/1.5 var(--т);color:#A8B5D4}
+.т_низ{margin-top:56px;display:flex;align-items:center;gap:0}
+.т_нстр{font:500 22px var(--д);letter-spacing:.16em;text-transform:uppercase;color:#6E7D9E;padding:0 34px;
+  border-left:1px solid var(--линия)}
+.т_нстр:first-child{border-left:0;color:var(--акц)}
+.дальшеподск{position:absolute;left:50%;transform:translateX(-50%);bottom:16px;
+  font:500 19px var(--д);letter-spacing:.16em;text-transform:uppercase;color:#6B7A99;z-index:41}
+.дальшеподск::after{content:" →";color:var(--акц)}
+
+/*=== ЗЕМЛЯ ===*/
+.земля{background:radial-gradient(110% 100% at 26% 52%,#0A1734 0%,#04070F 64%)}
+.з_холст{position:absolute;left:-180px;top:0;width:1560px;height:100%;pointer-events:none}
+.з_холст canvas{position:absolute;inset:0;width:100%;height:100%}
+.земля .поле{pointer-events:none}
+.з_текст{flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;
+  margin-left:1360px;max-width:1420px}
+.з_заг{font:700 78px/1.1 var(--д);letter-spacing:.01em;color:#F2F6FF}
+.з_тх{margin-top:28px;font:400 28px/1.5 var(--т);color:#A8B5D4}
+.з_список{margin-top:44px}
+.з_список div{position:relative;padding:17px 0 17px 34px;border-top:1px solid var(--линия);
+  font:400 24px var(--т);color:#9CAACB}
+.з_список div:last-child{border-bottom:1px solid var(--линия)}
+.з_список div::before{content:"";position:absolute;left:0;top:29px;width:16px;height:2px;background:var(--к)}
+.з_список b{display:inline-block;min-width:330px;font:700 25px var(--д);letter-spacing:.02em;color:var(--к)}
+
+/*=== КМГ: звенья цепочки ===*/
+.звенья{display:grid;grid-template-columns:repeat(4,1fr);flex:1 1 auto;align-content:center;position:relative}
+.звенья > div{padding:26px 40px 28px;border-left:1px solid var(--линия);border-top:1px solid var(--линия);
+  display:flex;flex-direction:column}
+.звенья > div:first-child{padding-left:0;border-left:0}
+.звенья .з_ном{font:700 18px var(--д);letter-spacing:.14em;color:var(--акц)}
+.звенья .з_гл{font:700 31px/1.2 var(--д);color:#E9EEFC;letter-spacing:.02em;padding:14px 0 12px}
+.звенья .з_тх{font:400 21px/1.45 var(--т);color:#97A4C3;padding-bottom:18px}
+.звенья .з_вед{align-self:flex-start;margin-top:auto;font:500 18px var(--д);letter-spacing:.06em;
+  color:var(--акц);border:1px solid var(--акц);padding:7px 14px;opacity:.9}
+.трипроблемы{display:flex;gap:0;margin-top:auto;padding:24px 0 4px;border-top:1px solid var(--линия);position:relative}
+.трипроблемы > div{flex:1 1 0;padding:0 44px;font:400 23px/1.45 var(--т);color:#C7D1EA;
+  border-left:1px solid var(--линия)}
+.трипроблемы > div:first-child{padding-left:0;border-left:0}
+.трипроблемы b{display:block;font:700 20px var(--д);letter-spacing:.08em;color:var(--акц);
+  text-transform:uppercase;padding-bottom:12px}
+
+/*=== СТРАНИЦА ЭКРАНА: один экран системы на весь кадр ===*/
+.экранстр{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;padding-top:34px}
+.эс_бокс{position:relative;flex:1 1 auto;min-height:0;overflow:hidden;width:100%;
+  border:1px solid rgba(255,255,255,.14);background:#060A14}
+.эс_бокс img,.эс_бокс video{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;display:block}
+.эс_бокс::before{content:"";position:absolute;left:0;top:0;width:28px;height:28px;z-index:3;
+  border-left:2px solid var(--акц);border-top:2px solid var(--акц)}
+.эс_бокс::after{content:"";position:absolute;right:0;bottom:0;width:28px;height:28px;z-index:3;
+  border-right:2px solid var(--акц);border-bottom:2px solid var(--акц)}
+.эс_низ{flex:0 0 auto;display:flex;align-items:baseline;gap:40px;padding:26px 0 4px;
+  border-top:1px solid var(--линия);margin-top:26px}
+.эс_имя{font:700 38px/1.15 var(--д);letter-spacing:.02em;color:var(--акц);white-space:nowrap}
+.эс_тх{font:400 25px/1.4 var(--т);color:#C6D0E8}
+.эс_ист{font:400 19px/1.35 var(--т);color:#6B7999;white-space:nowrap;margin-left:auto;text-align:right}
+.эс_бокс.свет,.медиабокс.свет{background:#F4F5F8;border-color:rgba(255,255,255,.28)}
+.кадры.много i{font-size:17px;padding:8px 13px;letter-spacing:.10em}
+.кадры.много i b{margin-right:7px}
+
 /*=== PowerChina: шесть ограничений ===*/
 .бед6{display:grid;grid-template-columns:repeat(3,1fr);flex:1 1 auto;align-content:center;position:relative}
 .бед6 > div{padding:26px 44px 28px;border-left:1px solid var(--линия);border-top:1px solid var(--линия);
@@ -386,7 +473,6 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 
 /*=== PowerChina: колонка экрана под формат записи 1280x688 ===*/
 [data-к="pc"] .сист .экранная{flex:0 0 1010px}
-[data-к="pc"] .шаги{flex:1 1 auto;width:auto}
 [data-к="pc"] .шаги div b{color:#F2F6FF;font-weight:700}
 .подшаг{padding-top:26px;font:400 22px/1.45 var(--т);color:#8E9CBC;position:relative}
 /*=== PowerChina: что получает Казахстан ===*/
@@ -452,56 +538,52 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 <div id="рамка">
 <div id="сцена">
 
-<section class="экран широкий" data-род="спина" style="--акц:#38E1FF">
-  <video class="фонвидео" muted loop autoplay playsinline poster="media/bg_pochemu.jpg" src="media/bg_pochemu.mp4" onerror="this.remove()"></video><div class="фоншторка"></div>
+<section class="экран широкий титул" data-род="спина" style="--акц:#38E1FF">
+  <canvas class="фонслой" data-аним="звёзды" style="opacity:.9"></canvas>
+  <div class="т_поле">
+    <div class="т_знаки">
+      <img src="media/gerb.png" alt="" onerror="this.remove()">
+      <div class="т_черта"></div>
+      <img src="media/kaznu.png" alt="" onerror="this.remove()">
+    </div>
+    <div class="т_над">Министерство Энергетики Республики Казахстан <span>·</span> КазНУ им. Аль-Фараби</div>
+    <h1 class="т_имя">Интеллектуальная.<br>Эффективная.<br>Защищённая энергетика</h1>
+    <div class="т_под">Четыре R&amp;D-центра, четыре индустриальных партнёра и один энергообъект.
+      Проектирование, управление, защита данных и защита объекта</div>
+    <div class="т_низ">
+      <div class="т_нстр">AI &amp; Digital Bridge 2026 <span>·</span> Астана</div>
+      <div class="т_нстр">Год цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="дальшеподск">Нажмите, чтобы продолжить</div>
+</section>
+
+<section class="экран широкий земля" data-род="спина" style="--акц:#38E1FF">
+  <canvas class="фонслой" data-аним="звёзды" style="opacity:.55"></canvas>
+  <div class="з_холст"><canvas data-аним="глобус"></canvas></div>
   <div class="поле">
     <div class="шапка" style="border-bottom-color:transparent">
-      <div class="этап"><div class="имя" style="font-size:38px;color:#8492B6">Почему сейчас</div></div>
-      <div class="шкала"><i class="вкл">Год цифровизации и искусственного интеллекта</i></div>
+      <div class="этап"><div class="имя" style="font-size:38px;color:#8492B6">Где мы находимся</div></div>
+      <div class="шкала"><i class="вкл">Казахстан <span style="opacity:.6">·</span> Астана</i></div>
     </div>
-    <div style="flex:1 1 auto;display:flex;flex-direction:column;justify-content:center">
-      <h1 class="лид" style="font-size:60px">Страна уже вкладывает <u>13 триллионов тенге</u> в обновление энергетики.<br>Эти деньги должны сразу купить интеллект и защиту</h1>
-      <p class="подлид" style="max-width:2100px">Модернизация без цифрового контура даёт объект, который через пять лет придётся модернизировать повторно. Интеллект и защита, заложенные в проект, стоят доли процента от стоимости объекта. Те же решения, встроенные позже, стоят кратно дороже.</p>
-      <div class="ряд" style="padding-top:56px"><div class="блок"><div class="б_знач">13<small> трлн ₸</small></div><div class="б_подп">вкладывается в модернизацию энергетики и ЖКХ в 2025–2029 годах</div><div class="ист">Правительство РК</div></div><div class="блок"><div class="б_знач">66<small> %</small></div><div class="б_подп">средний износ электрических сетей страны</div><div class="ист">Минэнерго РК, 2025</div></div><div class="блок"><div class="б_знач">891<small> нарушение</small></div><div class="б_подп">технологических нарушений на электростанциях с начала 2026 года</div><div class="ист">Минэнерго РК, 2026</div></div><div class="блок"><div class="б_знач">123,1 → 126,5<small> млрд кВт·ч</small></div><div class="б_подп">выработка 2025 года и план на 2026 год</div><div class="ист">Минэнерго РК</div></div></div>
+    <div class="з_текст">
+      <h1 class="з_заг">Энергетика страны<br>становится цифровой</h1>
+      <div class="з_тх">Один энергообъект собирает вокруг себя четыре технологических контура.
+        Их строят четыре R&amp;D-центра вместе с индустриальными партнёрами.</div>
+      <div class="з_список">
+        <div style="--к:#F5C453"><b>Проектируем</b>PowerChina Chengdu</div>
+        <div style="--к:#38E1FF"><b>Управляем</b>Rauda Technologies · Palanor</div>
+        <div style="--к:#FF4FD8"><b>Защищаем данные</b>Qubitera</div>
+        <div style="--к:#8FB8FF"><b>Защищаем объект</b>Dominor Partners</div>
+        <div style="--к:#0CA2E3"><b>Отрасль целиком</b>KMG.AIAN, инициатива Министерства Энергетики</div>
+      </div>
     </div>
     <div class="подвал">
       <div class="кто">Один энергообъект <span>·</span> четыре технологических контура</div>
       <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
     </div>
   </div>
-</section>
-
-<section class="экран широкий" data-род="спина" style="--акц:#38E1FF">
-  <div class="поле">
-    <div class="шапка">
-      <div class="этап"><div class="имя" style="font-size:40px">Масштаб задачи</div></div>
-      <div class="шкала"><i class="вкл">Всё, что ниже, уже утверждено и профинансировано</i></div>
-    </div>
-    <div class="масштаб"><div><div class="м_зн">13<small>трлн ₸</small></div><div class="м_тх">на модернизацию энергетики и ЖКХ в 2025–2029 годах по национальному проекту, утверждённому в декабре 2024 года по поручению Президента</div><div class="м_ист">Правительство РК, август 2026</div></div><div><div class="м_зн">6,2<small>трлн ₸</small></div><div class="м_тх">из них приходится непосредственно на энергетику. На 2026 год выделено 1,1 трлн ₸</div><div class="м_ист">Правительство РК, август 2026</div></div><div><div class="м_зн">66<small>%</small></div><div class="м_тх">средний износ электрических сетей страны. Национальный проект ставит цель снизить износ коммунальных сетей до 40% к 2029 году</div><div class="м_ист">Министерство Энергетики РК, 2025</div></div><div><div class="м_зн">891<small>нарушение</small></div><div class="м_тх">технологических нарушений на электростанциях с начала 2026 года. Это на 5,6% меньше прошлого года, но каждое из них это риск для потребителя</div><div class="м_ист">Министр энергетики Е. Акенжанов, 25 августа 2026</div></div><div><div class="м_зн">12 000<small>км</small></div><div class="м_тх">сетей в ремонте: 256 проектов по электроэнергии на 541,7 млрд ₸ и 137 проектов по теплоснабжению на 449,2 млрд ₸</div><div class="м_ист">Правительство РК, август 2026</div></div><div><div class="м_зн">965,4<small>млн</small></div><div class="м_тх">кибератак отражено за первое полугодие 2025 года, в 1,75 раза больше, чем за весь 2024 год. Более 3 500 DDoS-атак пришлось на объекты критической инфраструктуры</div><div class="м_ист">КНБ РК, 13 июля 2025</div></div></div>
-    <div class="подвал">
-      <div class="кто">Национальный проект «Модернизация энергетического и коммунального секторов»</div>
-      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
-    </div>
-  </div>
-</section>
-
-<section class="экран широкий" data-род="спина" style="--акц:#38E1FF">
-  <div class="поле">
-    <div class="шапка">
-      <div class="этап"><div class="имя" style="font-size:40px">Один объект, четыре контура</div></div>
-      <div class="шкала"><i class="вкл">4 R&amp;D-центра · 4 индустриальных партнёра</i></div>
-    </div>
-    <div class="тбл">
-      <div class="т_шапка"><div class="к1">Этап</div><div class="к2">Что решаем</div>
-        <div class="к3">R&amp;D-центр</div><div class="к4">Индустриальный партнёр</div>
-        <div class="к5">Где находится сегодня</div></div>
-      <div class="т_стр" style="--к:#F5C453"><div class="к1"><div class="т_ном">01</div><div class="т_этап">Проектируем</div></div><div class="к2">Где и какой объект строить, как оптимизировать мощность, подключение и CAPEX</div><div class="к3">R&D-центр по развитию ВИЭ</div><div class="к4"><span class="т_парт">PowerChina Chengdu</span></div><div class="к5"><span class="т_стат">Апробация на проектах Казахстана</span></div></div><div class="т_стр" style="--к:#38E1FF"><div class="к1"><div class="т_ном">02</div><div class="т_этап">Управляем</div></div><div class="к2">Как управлять объектом и сетями в реальном времени, сокращая потери и время аварий</div><div class="к3">R&D-центр интеллектуальных энергетических систем</div><div class="к4"><span class="т_парт">Rauda Technologies · Palanor</span></div><div class="к5"><span class="т_стат">Пилот на энергообъектах Астаны</span></div></div><div class="т_стр" style="--к:#FF4FD8"><div class="к1"><div class="т_ном">03</div><div class="т_этап">Защищаем данные</div></div><div class="к2">Как защитить телеметрию, команды управления и связь объекта с государством</div><div class="к3">Казахстанско-Сингапурский центр квантовых технологий КазНУ им. Аль-Фараби</div><div class="к4"><span class="т_парт">Qubitera</span></div><div class="к5"><span class="т_стат">Отработка компетенций с ЦКТ КазНУ им. Аль-Фараби</span></div></div><div class="т_стр" style="--к:#8FB8FF"><div class="к1"><div class="т_ном">04</div><div class="т_этап">Защищаем объект</div></div><div class="к2">Как защитить объект от нового класса физических угроз, прежде всего от БПЛА</div><div class="к3">R&D-центр прикладного применения ИИ</div><div class="к4"><span class="т_парт">Dominor Partners</span></div><div class="к5"><span class="т_стат">Подготовка контролируемых испытаний</span></div></div>
-    </div>
-    <div class="подвал">
-      <div class="кто">KMG.AIAN идёт отдельно <span>·</span> это инициатива Министерства Энергетики, а не пятый R&amp;D-центр</div>
-      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
-    </div>
-  </div>
+  <div class="дальшеподск">Нажмите, чтобы продолжить</div>
 </section>
 
 <section class="экран широкий" data-род="хаб" style="--акц:#38E1FF">
@@ -509,7 +591,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="шапка">
       <div class="этап"><div class="имя" style="font-size:40px">Четыре контура одного объекта</div></div>
-      <div class="шкала"><i class="вкл">Выберите раздел: цифры 1–5 или клик</i></div>
+      <div class="шкала"><i class="вкл">Дальше по стрелке · или выберите раздел</i></div>
     </div>
     <div class="плитки">
     <div class="плитка" data-открыть="pc" style="--к:#F5C453">
@@ -643,7 +725,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
-        <div class="р_комп">PowerChina Chengdu</div></div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
       <div class="кадры"><i data-кадр="0" class="вкл"><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column;padding-top:26px">
@@ -663,7 +745,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
-        <div class="р_комп">PowerChina Chengdu</div></div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class="вкл"><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="арх">
@@ -696,16 +778,16 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
-        <div class="р_комп">PowerChina Chengdu</div></div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class="вкл"><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="сист">
       <div class="экранная">
-        <div class="медиабокс" data-медиа="pc">
+        <div class="медиабокс свет" data-медиа="pc" data-прп="1.98511">
           <div class="нетмедиа">Место под реальный экран системы<code>media/pc.mp4 или media/pc.png</code></div>
         </div>
-        <div class="медподпись">Рабочие экраны платформы <span style="color:#5E6B88">·</span> эскизы переключают экран</div>
-        <div class="эскизы" data-эскизы="pc"></div>
+        <div class="медподпись">Проектно-конструкторский центр PowerChina Chengdu, запись экрана</div>
+        <div class="след"><div class="с_метка">Дальше по стрелке</div><div class="с_сп"><span><b>05</b>Карта ресурсов</span><span><b>06</b>Оценка ветра</span><span><b>07</b>Площадки</span><span><b>08</b>Объёмы и смета</span></div></div>
       </div>
       <div class="шаги"><div data-н="01"><b>Оценка ресурсов.</b> Анализ гидро-, ветровых и солнечных ресурсов, ограничений по сетям, транспорту и инфраструктуре, условий регионального развития</div><div data-н="02"><b>Планирование и выбор площадки.</b> Выбор района на карте и расчёт параметров проекта</div><div data-н="03"><b>Рекомендация площадок.</b> Система предлагает площадки для ГЭС, ВЭС, СЭС и ГАЭС</div><div data-н="04"><b>3D-интеллектуальное проектирование.</b> Проектирование на основе данных и формирование 3D-модели проекта</div></div>
     </div>
@@ -723,7 +805,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
-        <div class="р_комп">PowerChina Chengdu</div></div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
       <div class="шкала"><i class="">R&D</i><i class="">Локализация</i><i class="вкл">Пилот</i><i class="">Масштабирование</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column">
@@ -739,6 +821,82 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   </div>
   <div class="назад">ESC · вернуться на главную</div>
 </section>
+<section class="экран" data-род="раздел" data-к="pc" data-кадр="4" style="--акц:#F5C453">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class="вкл"><b>01</b>Карта ресурсов</i><i data-кадр="5" class=""><b>02</b>Оценка ветра</i><i data-кадр="6" class=""><b>03</b>Площадки</i><i data-кадр="7" class=""><b>04</b>Объёмы и смета</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс свет" data-прп="1.72500"><video src="media/pc_1.mp4" poster="media/pc_1.jpg" muted loop playsinline autoplay></video></div>
+      <div class="эс_низ"><div class="эс_имя">Карта ресурсов страны</div><div class="эс_тх">Гидро-, ветровые и солнечные ресурсы, сети и транспорт по областям Казахстана. Пять слоёв данных на одной карте</div>
+        <div class="эс_ист">источник:<br>экран платформы PowerChina Chengdu</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр по развитию ВИЭ <span>·</span> PowerChina Chengdu</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="pc" data-кадр="5" style="--акц:#F5C453">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Карта ресурсов</i><i data-кадр="5" class="вкл"><b>02</b>Оценка ветра</i><i data-кадр="6" class=""><b>03</b>Площадки</i><i data-кадр="7" class=""><b>04</b>Объёмы и смета</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс свет" data-прп="1.86571"><img src="media/pc_2.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Оценка ветра на площадке</div><div class="эс_тх">Оператор обводит участок на карте, система сразу считает скорость ветра на высоте 100 метров, плотность мощности, класс ресурса и площадь доступной земли</div>
+        <div class="эс_ист">источник:<br>экран платформы PowerChina Chengdu</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр по развитию ВИЭ <span>·</span> PowerChina Chengdu</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="pc" data-кадр="6" style="--акц:#F5C453">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Карта ресурсов</i><i data-кадр="5" class=""><b>02</b>Оценка ветра</i><i data-кадр="6" class="вкл"><b>03</b>Площадки</i><i data-кадр="7" class=""><b>04</b>Объёмы и смета</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс свет" data-прп="1.81406"><img src="media/pc_3.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Рекомендованные площадки</div><div class="эс_тх">Результат расчёта по всей стране. В каждой точке тип объекта: ГЭС, ГАЭС, ВЭС или СЭС</div>
+        <div class="эс_ист">источник:<br>экран платформы PowerChina Chengdu</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр по развитию ВИЭ <span>·</span> PowerChina Chengdu</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="pc" data-кадр="7" style="--акц:#F5C453">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">01</div><div class="р_имя">Проектируем</div>
+        <img class="р_лого" src="media/logo_pc.svg" alt="" style="height:44px" onerror="this.remove()"><div class="р_комп">PowerChina Chengdu</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Карта ресурсов</i><i data-кадр="5" class=""><b>02</b>Оценка ветра</i><i data-кадр="6" class=""><b>03</b>Площадки</i><i data-кадр="7" class="вкл"><b>04</b>Объёмы и смета</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс свет" data-прп="1.86047"><video src="media/pc_4.mp4" poster="media/pc_4.jpg" muted loop playsinline autoplay></video></div>
+      <div class="эс_низ"><div class="эс_имя">От задачи до сметы</div><div class="эс_тх">Задачи проектирования, драйверы модели, трёхмерная модель сооружения, объёмы работ с формулами расчёта и стоимость строительства</div>
+        <div class="эс_ист">источник:<br>рабочие экраны платформы PowerChina Chengdu</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр по развитию ВИЭ <span>·</span> PowerChina Chengdu</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
 <section class="экран" data-род="раздел" data-к="rd" data-кадр="0" style="--акц:#38E1FF">
   <canvas class="фонслой" data-аним="фон_rd"></canvas>
   <div class="подложка" data-превью="rd"></div><div class="затемнение"></div>
@@ -746,7 +904,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">02</div><div class="р_имя">Управляем</div>
-        <div class="р_комп">Rauda Technologies · Palanor</div></div>
+        <img class="р_лого" src="media/logo_rd.svg" alt="" style="height:52px" onerror="this.remove()"><div class="р_комп">Rauda Technologies · Palanor</div></div>
       <div class="кадры"><i data-кадр="0" class="вкл"><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column;padding-top:40px">
@@ -765,7 +923,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">02</div><div class="р_имя">Управляем</div>
-        <div class="р_комп">Rauda Technologies · Palanor</div></div>
+        <img class="р_лого" src="media/logo_rd.svg" alt="" style="height:52px" onerror="this.remove()"><div class="р_комп">Rauda Technologies · Palanor</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class="вкл"><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="реш">
@@ -787,16 +945,16 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">02</div><div class="р_имя">Управляем</div>
-        <div class="р_комп">Rauda Technologies · Palanor</div></div>
+        <img class="р_лого" src="media/logo_rd.svg" alt="" style="height:52px" onerror="this.remove()"><div class="р_комп">Rauda Technologies · Palanor</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class="вкл"><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="сист">
       <div class="экранная">
-        <div class="медиабокс" data-медиа="rd">
+        <div class="медиабокс" data-медиа="rd" data-прп="1.77778">
           <div class="нетмедиа">Место под реальный экран системы<code>media/rd.mp4 или media/rd.png</code></div>
         </div>
         <div class="медподпись">Контур управления Palanor. Ролик Отраслевого центра технологических компетенций</div>
-        <div class="эскизы" data-эскизы="rd"></div>
+        <div class="след"><div class="с_метка">Дальше по стрелке</div><div class="с_сп"><span><b>05</b>Центр данных</span><span><b>06</b>Сбор данных</span></div></div>
       </div>
       <div class="шаги"><div data-н="01">Система фиксирует отклонение в момент его возникновения</div><div data-н="02">Определяет повреждённый участок сети</div><div data-н="03">Показывает всю затронутую инфраструктуру</div><div data-н="04">ИИ формирует вариант реагирования, решение подтверждает диспетчер</div></div>
     </div>
@@ -814,7 +972,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">02</div><div class="р_имя">Управляем</div>
-        <div class="р_комп">Rauda Technologies · Palanor</div></div>
+        <img class="р_лого" src="media/logo_rd.svg" alt="" style="height:52px" onerror="this.remove()"><div class="р_комп">Rauda Technologies · Palanor</div></div>
       <div class="шкала"><i class="">R&D</i><i class="">Локализация</i><i class="вкл">Пилот</i><i class="">Масштабирование</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column">
@@ -831,6 +989,44 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   </div>
   <div class="назад">ESC · вернуться на главную</div>
 </section>
+<section class="экран" data-род="раздел" data-к="rd" data-кадр="4" style="--акц:#38E1FF">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">02</div><div class="р_имя">Управляем</div>
+        <img class="р_лого" src="media/logo_rd.svg" alt="" style="height:52px" onerror="this.remove()"><div class="р_комп">Rauda Technologies · Palanor</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class="вкл"><b>01</b>Центр данных</i><i data-кадр="5" class=""><b>02</b>Сбор данных</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="2.80702"><img src="media/rd_1.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Центр данных интеллектуальной энергетики</div><div class="эс_тх">Состояние сети по областям, динамика электропотребления, режимы и нагрузка трансформаторов на одном экране</div>
+        <div class="эс_ист">источник:<br>экран Palanor, Rauda Technologies</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр интеллектуальных энергетических систем <span>·</span> Rauda Technologies · Palanor</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="rd" data-кадр="5" style="--акц:#38E1FF">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">02</div><div class="р_имя">Управляем</div>
+        <img class="р_лого" src="media/logo_rd.svg" alt="" style="height:52px" onerror="this.remove()"><div class="р_комп">Rauda Technologies · Palanor</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Центр данных</i><i data-кадр="5" class="вкл"><b>02</b>Сбор данных</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="2.80702"><img src="media/rd_2.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Сбор и качество данных</div><div class="эс_тх">Источники, синхронизация, объём данных и число сервисов интеграционной платформы. Видно, какие данные пришли, а какие нет</div>
+        <div class="эс_ист">источник:<br>экран Palanor, Rauda Technologies</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр интеллектуальных энергетических систем <span>·</span> Rauda Technologies · Palanor</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
 <section class="экран" data-род="раздел" data-к="qb" data-кадр="0" style="--акц:#FF4FD8">
   <canvas class="фонслой" data-аним="фон_qb"></canvas>
   <div class="подложка" data-превью="qb"></div><div class="затемнение"></div>
@@ -838,7 +1034,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">03</div><div class="р_имя">Защищаем данные</div>
-        <div class="р_комп">Qubitera</div></div>
+        <img class="р_лого" src="media/logo_qb.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">Qubitera</div></div>
       <div class="кадры"><i data-кадр="0" class="вкл"><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column;padding-top:40px">
@@ -857,7 +1053,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">03</div><div class="р_имя">Защищаем данные</div>
-        <div class="р_комп">Qubitera</div></div>
+        <img class="р_лого" src="media/logo_qb.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">Qubitera</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class="вкл"><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="реш">
@@ -879,16 +1075,16 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">03</div><div class="р_имя">Защищаем данные</div>
-        <div class="р_комп">Qubitera</div></div>
+        <img class="р_лого" src="media/logo_qb.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">Qubitera</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class="вкл"><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="сист">
       <div class="экранная">
-        <div class="медиабокс" data-медиа="qb">
+        <div class="медиабокс" data-медиа="qb" data-прп="1.77778">
           <div class="нетмедиа">Место под реальный экран системы<code>media/qb.mp4 или media/qb.png</code></div>
         </div>
         <div class="медподпись">Квантовый контур защиты канала. Ролик Отраслевого центра технологических компетенций</div>
-        <div class="эскизы" data-эскизы="qb"></div>
+        <div class="след"><div class="с_метка">Дальше по стрелке</div><div class="с_сп"><span><b>05</b>Пул ключей</span><span><b>06</b>Оборудование</span></div></div>
       </div>
       <div class="шаги"><div data-н="01">Ключи создаются и распределяются между узлами</div><div data-н="02">Канал шифруется, критические данные защищены в момент передачи</div><div data-н="03">Ключевой материал регулярно обновляется</div><div data-н="04">Состояние защиты контролируется в реальном времени</div></div>
     </div>
@@ -906,7 +1102,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">03</div><div class="р_имя">Защищаем данные</div>
-        <div class="р_комп">Qubitera</div></div>
+        <img class="р_лого" src="media/logo_qb.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">Qubitera</div></div>
       <div class="шкала"><i class="">R&D</i><i class="">Локализация</i><i class="">Пилот</i><i class="">Масштабирование</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column">
@@ -923,6 +1119,44 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   </div>
   <div class="назад">ESC · вернуться на главную</div>
 </section>
+<section class="экран" data-род="раздел" data-к="qb" data-кадр="4" style="--акц:#FF4FD8">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">03</div><div class="р_имя">Защищаем данные</div>
+        <img class="р_лого" src="media/logo_qb.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">Qubitera</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class="вкл"><b>01</b>Пул ключей</i><i data-кадр="5" class=""><b>02</b>Оборудование</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="4.24403"><img src="media/qb_1.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Пул ключей в реальном времени</div><div class="эс_тх">Подключённые узлы, выработано и израсходовано за сутки, скорость выработки ключей и прогноз расхода</div>
+        <div class="эс_ист">источник:<br>экран системы управления ключами</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">Казахстанско-Сингапурский центр квантовых технологий КазНУ им. Аль-Фараби <span>·</span> Qubitera</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="qb" data-кадр="5" style="--акц:#FF4FD8">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">03</div><div class="р_имя">Защищаем данные</div>
+        <img class="р_лого" src="media/logo_qb.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">Qubitera</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Пул ключей</i><i data-кадр="5" class="вкл"><b>02</b>Оборудование</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс свет" data-прп="2.20104"><img src="media/qb_2.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Оборудование квантового распределения ключей</div><div class="эс_тх">Узел выработки квантовых ключей в стоечном исполнении. Обслуживает каналы связи энергообъекта</div>
+        <div class="эс_ист">источник:<br>оборудование Qubitera</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">Казахстанско-Сингапурский центр квантовых технологий КазНУ им. Аль-Фараби <span>·</span> Qubitera</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
 <section class="экран" data-род="раздел" data-к="dm" data-кадр="0" style="--акц:#8FB8FF">
   <canvas class="фонслой" data-аним="фон_dm"></canvas>
   <div class="подложка" data-превью="dm"></div><div class="затемнение"></div>
@@ -930,7 +1164,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">04</div><div class="р_имя">Защищаем объект</div>
-        <div class="р_комп">Dominor Partners</div></div>
+        <img class="р_лого" src="media/logo_dm.svg" alt="" style="height:30px" onerror="this.remove()"><div class="р_комп">Dominor Partners</div></div>
       <div class="кадры"><i data-кадр="0" class="вкл"><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column;padding-top:40px">
@@ -949,7 +1183,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">04</div><div class="р_имя">Защищаем объект</div>
-        <div class="р_комп">Dominor Partners</div></div>
+        <img class="р_лого" src="media/logo_dm.svg" alt="" style="height:30px" onerror="this.remove()"><div class="р_комп">Dominor Partners</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class="вкл"><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="реш">
@@ -971,16 +1205,16 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">04</div><div class="р_имя">Защищаем объект</div>
-        <div class="р_комп">Dominor Partners</div></div>
+        <img class="р_лого" src="media/logo_dm.svg" alt="" style="height:30px" onerror="this.remove()"><div class="р_комп">Dominor Partners</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class="вкл"><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="сист">
       <div class="экранная">
-        <div class="медиабокс" data-медиа="dm">
+        <div class="медиабокс" data-медиа="dm" data-прп="1.77778">
           <div class="нетмедиа">Место под реальный экран системы<code>media/dm.mp4 или media/dm.png</code></div>
         </div>
         <div class="медподпись">Контур обнаружения и реагирования. Ролик Отраслевого центра технологических компетенций</div>
-        <div class="эскизы" data-эскизы="dm"></div>
+        <div class="след"><div class="с_метка">Дальше по стрелке</div><div class="с_сп"><span><b>05</b>Перехват</span><span><b>06</b>Оптический модуль</span></div></div>
       </div>
       <div class="шаги"><div data-н="01">Обнаружена воздушная цель, радар и радиоразведка ведут её одновременно</div><div data-н="02">Оптика берёт цель на сопровождение</div><div data-н="03">ИИ классифицирует тип аппарата и определяет уровень угрозы</div><div data-н="04">Оператор принимает решение о способе реагирования</div></div>
     </div>
@@ -998,7 +1232,7 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">04</div><div class="р_имя">Защищаем объект</div>
-        <div class="р_комп">Dominor Partners</div></div>
+        <img class="р_лого" src="media/logo_dm.svg" alt="" style="height:30px" onerror="this.remove()"><div class="р_комп">Dominor Partners</div></div>
       <div class="шкала"><i class="">R&D</i><i class="вкл">Локализация</i><i class="">Пилот</i><i class="">Масштабирование</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column">
@@ -1015,6 +1249,44 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   </div>
   <div class="назад">ESC · вернуться на главную</div>
 </section>
+<section class="экран" data-род="раздел" data-к="dm" data-кадр="4" style="--акц:#8FB8FF">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">04</div><div class="р_имя">Защищаем объект</div>
+        <img class="р_лого" src="media/logo_dm.svg" alt="" style="height:30px" onerror="this.remove()"><div class="р_комп">Dominor Partners</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class="вкл"><b>01</b>Перехват</i><i data-кадр="5" class=""><b>02</b>Оптический модуль</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="1.45455"><img src="media/dm_1.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Перехват беспилотника над объектом</div><div class="эс_тх">Обнаружение, сопровождение и поражение аппарата в воздухе над промышленной площадкой</div>
+        <div class="эс_ист">источник:<br>материалы Dominor Partners</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр прикладного применения ИИ <span>·</span> Dominor Partners</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="dm" data-кадр="5" style="--акц:#8FB8FF">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">04</div><div class="р_имя">Защищаем объект</div>
+        <img class="р_лого" src="media/logo_dm.svg" alt="" style="height:30px" onerror="this.remove()"><div class="р_комп">Dominor Partners</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Перехват</i><i data-кадр="5" class="вкл"><b>02</b>Оптический модуль</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="0.88222"><img src="media/dm_2.jpg" alt=""></div>
+      <div class="эс_низ"><div class="эс_имя">Оптико-электронный модуль</div><div class="эс_тх">Поворотная платформа с оптическим и тепловизионным каналами, ведёт цель автоматически</div>
+        <div class="эс_ист">источник:<br>материалы Dominor Partners</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">R&D-центр прикладного применения ИИ <span>·</span> Dominor Partners</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
 <section class="экран" data-род="раздел" data-к="km" data-кадр="0" style="--акц:#0CA2E3">
   <canvas class="фонслой" data-аним="фон_km"></canvas>
   <div class="подложка" data-превью="km"></div><div class="затемнение"></div>
@@ -1022,13 +1294,17 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
-        <div class="р_комп">KMG.AIAN</div></div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
       <div class="кадры"><i data-кадр="0" class="вкл"><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
-    <div style="flex:1 1 auto;display:flex;flex-direction:column;padding-top:40px">
-      <div style="flex:1 1 auto;display:flex;align-items:center;min-height:0">
-        <div class="тезис">При разрозненных данных риск дефицита становится очевидным уже после возникновения проблемы</div></div>
-      <div class="трипункта"><div><div class="т_ном">01</div>Данные о производстве, транспортировке, запасах и реализации нефтепродуктов формируются в разных системах</div><div><div class="т_ном">02</div>Единый топливный баланс страны приходится собирать вручную и с задержкой</div><div><div class="т_ном">03</div>Регион с риском снижения обеспеченности выявляется постфактум</div></div>
+    <div style="flex:1 1 auto;display:flex;flex-direction:column;padding-top:26px">
+      <div class="лид" style="font-size:44px;text-transform:none;padding-bottom:10px">Четыре звена оборота нефтепродуктов, четыре ведомства, четыре несвязанные системы</div>
+      <div class="звенья"><div><div class="з_ном">01</div><div class="з_гл">Добыча</div><div class="з_тх">Скважины передают данные онлайн, по месторождению ведётся цифровой двойник</div><div class="з_вед">МЭ · цифровой двойник</div></div><div><div class="з_ном">02</div><div class="з_гл">Транспортировка</div><div class="з_тх">Прокачка по трубопроводам, дислокация вагонов-цистерн по стране и импорт, развоз автотранспортом</div><div class="з_вед">КТЖ · КазТрансОйл</div></div><div><div class="з_ном">03</div><div class="з_гл">Переработка и хранение</div><div class="з_тх">Поставка и переработка сырья, производство и отгрузка нефтепродуктов, запасы топлива по стране</div><div class="з_вед">НПЗ · МЭ</div></div><div><div class="з_ном">04</div><div class="з_гл">Реализация</div><div class="з_тх">Продажи нефтепродуктов по регионам, объёмы и число объектов реализации</div><div class="з_вед">КГД МФ РК</div></div></div>
+      <div class="трипроблемы">
+        <div><b>Данные врозь</b>Производство, транспортировка, запасы и реализация живут в разных системах и в разных форматах</div>
+        <div><b>Баланс вручную</b>Единый топливный баланс страны приходится сводить руками и с задержкой в недели</div>
+        <div><b>Дефицит постфактум</b>Регион со снижением обеспеченности виден уже после того, как топливо кончилось на заправках</div>
+      </div>
     </div>
     <div class="подвал">
       <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
@@ -1041,17 +1317,28 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
-        <div class="р_комп">KMG.AIAN</div></div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class="вкл"><b>02</b>Решение</i><i data-кадр="2" class=""><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
-    <div class="реш">
-      <div class="реш_лево">
-        <div class="реш_имя">KMG.AIAN · единый интеллектуальный контур топливного баланса</div>
-        <div class="цепь"><div data-н="01">Данные</div><div data-н="02">Баланс</div><div data-н="03">Прогноз</div><div data-н="04">Риск</div><div data-н="05">Рекомендация</div></div>
+    <div class="арх">
+      <div class="арх_кол">
+        <div class="арх_метка">ЧЕТЫРЕ ИСТОЧНИКА ДАННЫХ</div>
+        <div class="пкэтап"><b>Нефтеперерабатывающие заводы</b><span>выпуск и отгрузка нефтепродуктов</span></div><div class="пкэтап"><b>«Қазақстан темір жолы»</b><span>дислокация вагонов по стране и импорт</span></div><div class="пкэтап"><b>Министерство Энергетики</b><span>запасы топлива по регионам</span></div><div class="пкэтап"><b>Комитет государственных доходов</b><span>реализация по регионам и объектам</span></div>
       </div>
-      <div class="центр"><div class="визуал"><canvas data-аним="карта"></canvas>
-        <div class="фраза">От реагирования по факту <u>к управлению на опережение</u></div></div></div>
+      <div class="арх_кол по_центру">
+        <div class="ядро">
+          <div class="я_ии">ЕДИНЫЙ КОНТУР ТОПЛИВНОГО БАЛАНСА</div>
+          <div class="я_имя">KMG.AIAN</div>
+          <div class="я_тх">Данные, которые страна уже собирает,<br>сводятся в одну картину и обновляются постоянно</div>
+        </div>
+      </div>
+      <div class="арх_кол">
+        <div class="арх_метка">ЧТО ДЕЛАЕТ СИСТЕМА</div>
+        <div class="функции"><div>Сводит четыре потока в один топливный баланс страны</div><div>Считает обеспеченность каждого региона в днях</div><div>Строит прогноз и находит регион с риском дефицита</div><div>Показывает риск заранее, до того как топливо кончится</div><div>Предлагает три пути решения, выбирает человек</div></div>
+      </div>
     </div>
+    <div class="рдц"><div class="р_метка">ОСНОВА</div>
+      <div class="р_тх">Аналитический центр КазМунайГаза, более 10 лет накопленных данных по обороту нефтепродуктов. Новых данных собирать не нужно, нужно связать существующие</div></div>
     <div class="подвал">
       <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
       <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
@@ -1063,18 +1350,18 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
-        <div class="р_комп">KMG.AIAN</div></div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
       <div class="кадры"><i data-кадр="0" class=""><b>01</b>Проблема</i><i data-кадр="1" class=""><b>02</b>Решение</i><i data-кадр="2" class="вкл"><b>03</b>Система в работе</i><i data-кадр="3" class=""><b>04</b>Эффект</i></div>
     </div>
     <div class="сист">
       <div class="экранная">
-        <div class="медиабокс" data-медиа="km">
+        <div class="медиабокс" data-медиа="km" data-прп="1.91176">
           <div class="нетмедиа">Место под реальный экран системы<code>media/km.mp4 или media/km.png</code></div>
         </div>
-        <div class="медподпись">Единый контур топливного баланса страны</div>
-        <div class="эскизы" data-эскизы="km"></div>
+        <div class="медподпись">Реализация нефтепродуктов по регионам, экран Комитета государственных доходов</div>
+        <div class="след"><div class="с_метка">Дальше по стрелке</div><div class="с_сп"><span><b>05</b>Цепочка и ведомства</span><span><b>06</b>Четыре источника</span><span><b>07</b>Дефицит заранее</span></div></div>
       </div>
-      <div class="шаги"><div data-н="01">По каждому региону виден текущий запас и темп потребления</div><div data-н="02">Система строит прогноз обеспеченности</div><div data-н="03">Заранее показывает регион с вероятностью дефицита</div><div data-н="04">Предлагает варианты перераспределения, решение принимает человек</div></div>
+      <div class="шаги"><div data-н="01"><b>Запас и потребление.</b> По каждому региону виден текущий запас топлива, темп потребления и обеспеченность в днях</div><div data-н="02"><b>Что в пути.</b> Дислокация вагонов-цистерн и импорт показывают, сколько топлива уже едет в регион и когда придёт</div><div data-н="03"><b>Прогноз и риск.</b> Система строит прогноз обеспеченности и заранее показывает регион с вероятностью дефицита</div><div data-н="04"><b>Три пути решения.</b> Скорректировать поставки, ускорить отгрузку вагонов, уже находящихся в пути, или перераспределить объёмы. Решение принимает человек</div></div>
     </div>
     <div class="подвал">
       <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
@@ -1090,15 +1377,73 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
   <div class="поле">
     <div class="р_шапка">
       <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
-        <div class="р_комп">KMG.AIAN</div></div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
       <div class="шкала"><i class="">R&D</i><i class="">Локализация</i><i class="вкл">Пилот</i><i class="">Масштабирование</i></div>
     </div>
     <div style="flex:1 1 auto;display:flex;flex-direction:column">
       <div style="flex:1 1 auto;display:flex;flex-direction:column;justify-content:center;min-height:0">
         <div class="эфф"><div><div class="э_знач">1</div><div class="э_ед">картина по стране</div><div class="э_подп">производство, транспорт, запасы и реализация нефтепродуктов сведены в один контур</div></div><div><div class="э_знач">Заранее</div><div class="э_ед">до возникновения дефицита</div><div class="э_подп">регион с риском виден раньше, чем проблему почувствует потребитель</div></div><div><div class="э_знач">Человек</div><div class="э_ед">принимает решение</div><div class="э_подп">ИИ предлагает варианты перераспределения, окончательное решение за человеком</div></div></div>
-        <div class="деньги"><div class="д_сум">Эффект измеряется не экономией, а отсутствием дефицита</div><div class="д_тх">Стоимость регионального топливного дефицита несопоставима со стоимостью интеграции данных, которые в стране уже собираются</div></div>
+        <div class="деньги"><div class="д_сум">Три пути решения</div><div class="д_тх">Скорректировать поставки на проблемный регион · ускорить отгрузку вагонов, уже находящихся в пути · перераспределить объёмы между регионами. Система считает последствия каждого варианта, окончательное решение принимает человек<div class="д_ист">экран KMG.AIAN, раздел «Пути решения»</div></div></div>
+        <div class="эфф_сноска">Эффект измеряется не экономией, а отсутствием дефицита. Стоимость регионального топливного дефицита несопоставима со стоимостью интеграции данных, которые в стране уже собираются.</div>
       </div>
       <div class="дальше"><div class="д_метка">СЛЕДУЮЩИЙ ШАГ</div><div class="д_тк">Завершить межведомственную интеграцию → подтвердить точность прогнозирования → перевести в постоянный управленческий контур</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="km" data-кадр="4" style="--акц:#0CA2E3">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class="вкл"><b>01</b>Цепочка и ведомства</i><i data-кадр="5" class=""><b>02</b>Четыре источника</i><i data-кадр="6" class=""><b>03</b>Дефицит заранее</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="2.79570"><video src="media/km_1.mp4" poster="media/km_1.jpg" muted loop playsinline autoplay></video></div>
+      <div class="эс_низ"><div class="эс_имя">Цепочка оборота нефтепродуктов</div><div class="эс_тх">Скважины передают данные онлайн, нефть идёт по трубопроводам на переработку, готовое топливо развозится вагонами и автотранспортом по регионам. У каждого звена свои ведомства и свои системы</div>
+        <div class="эс_ист">источник:<br>KMG.AIAN</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="km" data-кадр="5" style="--акц:#0CA2E3">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Цепочка и ведомства</i><i data-кадр="5" class="вкл"><b>02</b>Четыре источника</i><i data-кадр="6" class=""><b>03</b>Дефицит заранее</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="1.41626"><video src="media/km_2.mp4" poster="media/km_2.jpg" muted loop playsinline autoplay></video></div>
+      <div class="эс_низ"><div class="эс_имя">Четыре источника данных</div><div class="эс_тх">Нефтеперерабатывающие заводы дают выпуск и отгрузку, «Қазақстан темір жолы» дислокацию вагонов и импорт, Министерство Энергетики запасы топлива, Комитет государственных доходов реализацию по регионам</div>
+        <div class="эс_ист">источник:<br>записи экранов ведомственных систем</div></div>
+    </div>
+    <div class="подвал">
+      <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
+      <div class="поз">Совместно с Министерством Энергетики Республики Казахстан в рамках Года цифровизации и искусственного интеллекта</div>
+    </div>
+  </div>
+  <div class="назад">ESC · вернуться на главную</div>
+</section>
+<section class="экран" data-род="раздел" data-к="km" data-кадр="6" style="--акц:#0CA2E3">
+  <div class="поле">
+    <div class="р_шапка">
+      <div class="р_лево"><div class="р_ном">МЭ</div><div class="р_имя">Отрасль целиком</div>
+        <img class="р_лого" src="media/logo_km.svg" alt="" style="height:40px" onerror="this.remove()"><div class="р_комп">KMG.AIAN</div></div>
+      <div class="кадры много"><i data-кадр="2" class=""><b>&lt;</b>Назад в раздел</i><i data-кадр="4" class=""><b>01</b>Цепочка и ведомства</i><i data-кадр="5" class=""><b>02</b>Четыре источника</i><i data-кадр="6" class="вкл"><b>03</b>Дефицит заранее</i></div>
+    </div>
+    <div class="экранстр">
+      <div class="эс_бокс" data-прп="2.56184"><video src="media/km_3.mp4" poster="media/km_3.jpg" muted loop playsinline autoplay></video></div>
+      <div class="эс_низ"><div class="эс_имя">Дефицит виден заранее</div><div class="эс_тх">ИИ находит регион, где запас падает ниже порога, и показывает три пути решения: скорректировать поставки, ускорить отгрузку вагонов, уже находящихся в пути, или перераспределить объёмы между регионами</div>
+        <div class="эс_ист">источник:<br>запись экрана KMG.AIAN</div></div>
     </div>
     <div class="подвал">
       <div class="кто">Инициатива Министерства Энергетики Республики Казахстан <span>·</span> KMG.AIAN</div>
@@ -1110,13 +1455,101 @@ body{font-family:var(--т);color:var(--текст);-webkit-font-smoothing:antial
 
 <div id="нав"></div>
 <div id="счёт"></div>
-<div id="подск">Стрелки · 1–5 разделы · ESC главная · F во весь экран</div>
+<div id="подск">Клик или стрелка вправо · дальше · 1–5 разделы · ESC главная · F во весь экран</div>
 </div>
 </div>
 
 <script>
 var KZ="M597.8 482.3L588.9 490.1L584.7 488.6L576.8 498.0L553.8 512.6L539.7 532.7L539.4 542.0L535.5 542.1L526.5 535.2L528.2 527.1L523.8 521.0L493.7 521.6L488.5 491.7L476.5 491.3L478.8 455.1L471.4 459.3L463.9 443.4L449.4 428.5L438.0 434.5L407.7 431.7L377.8 436.7L357.4 411.9L353.7 403.6L293.5 361.0L230.1 381.5L230.2 516.3L216.8 517.3L202.6 492.7L184.5 479.2L158.4 486.0L144.6 499.5L143.8 487.8L147.7 475.7L147.1 463.6L130.0 459.5L123.0 449.0L115.1 448.4L115.3 437.0L103.7 411.0L91.4 406.1L89.6 401.1L93.4 395.1L104.4 395.0L112.2 399.6L121.2 398.6L115.5 395.3L108.1 384.2L118.1 368.2L142.9 366.5L161.9 369.2L151.5 360.3L160.3 337.6L158.5 327.2L161.2 320.1L158.7 313.2L154.9 309.6L144.3 308.3L135.8 314.2L123.0 306.8L112.2 303.9L93.6 312.3L80.5 322.8L67.3 325.6L67.6 329.6L65.8 328.6L64.5 332.3L48.5 323.4L46.5 319.0L47.9 316.9L55.9 318.7L57.7 316.2L38.3 281.9L21.5 278.4L16.8 280.7L11.9 273.2L11.2 262.7L1.3 256.1L0.0 250.2L2.3 241.7L10.4 229.0L4.8 221.0L9.5 203.2L15.7 197.8L18.8 186.1L24.3 182.6L42.4 203.0L44.8 204.1L52.9 200.5L54.9 197.3L49.5 175.4L54.0 175.7L66.7 166.6L71.0 158.0L89.4 150.5L102.8 134.3L111.8 137.4L116.4 143.7L122.8 143.4L137.8 135.1L146.4 143.4L165.3 143.4L185.0 159.6L195.2 178.2L197.5 173.6L195.0 163.1L197.3 160.7L214.9 173.4L223.0 176.4L231.9 171.7L234.2 166.8L242.7 160.4L245.9 161.8L255.5 158.7L266.1 165.2L271.3 163.9L275.9 157.8L288.6 158.8L301.5 172.4L315.5 175.0L317.2 179.7L324.3 176.4L330.3 166.6L339.3 172.9L352.1 172.3L363.0 166.2L367.1 149.2L362.4 144.9L340.3 137.2L338.5 132.7L329.6 126.9L339.3 119.8L345.4 118.9L353.3 112.0L347.9 99.6L354.6 88.7L377.4 89.8L380.1 87.5L378.4 83.7L369.7 79.3L358.4 77.2L359.1 71.4L366.6 68.5L365.1 66.4L359.6 67.5L353.0 64.9L359.2 50.3L376.3 53.0L438.5 36.9L450.0 36.4L453.8 38.5L457.6 32.1L463.4 28.1L474.2 25.6L481.7 26.5L529.2 15.2L531.4 12.4L530.4 8.4L538.3 6.8L549.4 0.0L562.1 1.2L579.0 8.3L592.7 3.1L603.6 29.0L601.3 43.2L607.3 45.2L623.8 43.5L628.2 39.1L634.6 53.1L638.0 51.2L638.9 46.1L646.1 47.1L653.8 52.6L664.5 48.7L664.9 53.6L655.7 61.7L658.2 71.3L669.3 64.9L677.9 66.5L681.4 69.8L683.8 64.0L693.3 57.4L702.7 54.9L708.0 47.7L742.4 34.8L737.9 45.7L732.3 45.4L733.8 50.1L767.6 77.8L807.1 143.0L819.8 169.4L830.5 163.1L831.1 154.4L838.2 150.4L847.8 154.1L846.4 162.3L854.2 162.7L856.1 170.6L881.3 171.1L887.9 165.0L902.6 161.3L917.0 169.4L926.3 189.1L942.6 195.6L943.0 201.7L948.6 211.9L971.9 216.2L984.1 206.0L985.4 209.0L982.8 213.8L992.0 224.0L997.8 226.6L1000.0 231.4L993.2 230.5L987.4 232.7L985.1 245.6L981.0 251.8L961.4 257.1L955.8 274.3L959.1 298.6L954.8 305.6L948.6 306.6L937.7 314.1L934.7 309.0L918.7 309.0L894.5 301.1L877.0 359.5L877.3 362.2L884.3 365.7L882.1 376.7L875.8 373.3L866.0 374.7L861.6 368.5L821.6 381.1L817.0 385.6L820.1 388.8L826.3 388.4L831.9 391.8L828.8 397.8L828.8 414.5L839.4 448.8L838.5 451.0L835.3 450.0L829.7 453.2L833.3 459.4L825.1 464.5L825.3 484.5L818.2 476.3L806.1 473.7L798.7 463.0L746.2 455.7L716.7 457.2L712.9 461.6L706.3 460.7L677.9 445.9L661.9 454.6L658.5 469.7L660.3 476.4L630.4 463.6L617.8 461.3L605.4 464.5L596.5 479.0Z";
 var АНИМ={};
+var ЗЕМЛЯ={"\u0441\u0443\u0448\u0430":[[[-15.5,49.9],[-16.7,50.0],[-17.1,50.3],[-17.6,50.2],[-17.3,49.7],[-18.3,49.7],[-19.0,49.3],[-19.8,49.2],[-21.0,48.8],[-22.4,48.3],[-24.3,47.6],[-25.6,47.2],[-26.8,46.7],[-27.0,45.9],[-27.4,45.0],[-27.2,44.4],[-26.8,43.6],[-26.3,43.4],[-25.4,43.3],[-24.6,43.0],[-23.9,42.9],[-23.2,43.1],[-23.0,43.6],[-21.9,44.1],[-21.3,44.2],[-20.8,43.9],[-20.2,43.8],[-19.2,43.7],[-18.7,44.0],[-18.1,44.2],[-18.0,44.7],[-17.8,45.3],[-17.7,45.7],[-17.1,46.7],[-16.5,47.5],[-16.0,47.8],[-15.5,47.7],[-15.7,48.1],[-15.0,48.7],[-14.4,48.7],[-13.9,49.0],[-14.4,49.4],[-14.8,49.7],[-15.5,49.9]],[[-23.8,114.3],[-23.1,114.7],[-23.9,114.9],[-23.2,115.3],[-22.9,116.1],[-22.4,116.6],[-22.1,117.3],[-21.9,117.7],[-22.0,118.0]],[[-17.7,124.0],[-17.2,124.3],[-17.4,124.8],[-16.7,124.9],[-16.1,125.4],[-15.7,125.6],[-15.6,126.1],[-15.4,126.6],[-15.0,127.0],[-14.9,127.5]],[[-11.2,124.8],[-11.5,123.9],[-10.4,124.3],[-10.0,125.3],[-9.5,126.2],[-9.4,126.9],[-9.4,127.6],[-9.7,127.2],[-10.2,126.2],[-10.5,125.4],[-11.2,124.8]],[[-9.4,118.1],[-9.6,118.5],[-9.5,119.1],[-10.0,119.4],[-10.2,118.2],[-10.3,117.5],[-9.7,117.3],[-9.7,117.9],[-9.4,118.1]],[[-9.2,123.1],[-9.8,123.0],[-10.1,121.5],[-10.1,120.2],[-9.5,121.0],[-9.7,121.6],[-9.6,122.3],[-9.2,123.1]],[[-8.3,108.8],[-8.4,110.7],[-7.9,110.9],[-8.4,112.8],[-9.0,113.2],[-9.1,114.7],[-9.7,115.9],[-10.1,114.8],[-9.8,113.7],[-9.8,112.8],[-9.8,111.7],[-9.6,110.8],[-9.3,109.6],[-9.2,108.9],[-8.9,106.6],[-8.5,106.4],[-8.4,105.5],[-7.5,106.2],[-7.5,107.4],[-7.9,108.2],[-8.3,108.8]],[[-4.0,130.6],[-4.8,131.0],[-4.4,130.1],[-4.3,129.3],[-4.4,128.7],[-4.4,128.0],[-3.8,128.2],[-3.8,129.5],[-4.0,130.6]],[[-1.9,134.2],[-3.5,134.5],[-4.1,135.6],[-3.0,136.4],[-2.4,137.5],[-2.4,138.4],[-2.7,139.3],[-3.0,140.0],[-3.2,141.1]],[[-6.1,138.1],[-5.3,136.2],[-5.2,135.3],[-4.4,133.8],[-4.8,133.5],[-4.6,132.9],[-3.7,132.1],[-3.3,133.2],[-3.3,133.9],[-3.1,132.3],[-2.5,131.9],[-2.4,131.0],[-1.9,130.6],[-1.6,131.9],[-1.2,132.4],[-1.6,134.0],[-1.9,134.2]],[[0.3,125.2],[-0.7,124.4],[-0.9,123.7],[-0.7,122.7],[-0.8,121.1],[-1.0,120.2],[-1.7,120.1],[-2.6,121.0],[-2.1,121.5],[-1.7,123.4],[-2.1,122.9],[-2.7,122.4],[-3.1,121.6],[-4.3,122.6],[-5.8,123.3],[-6.5,123.3],[-6.8,122.8],[-6.4,122.4],[-5.6,122.9],[-6.0,121.9],[-5.4,121.8],[-4.8,121.0],[-3.9,121.1],[-4.1,120.4],[-5.3,120.5],[-6.8,120.6],[-6.9,120.0],[-6.6,119.5],[-5.7,119.8],[-4.7,119.6],[-4.1,118.9],[-3.4,119.3],[-2.6,119.4],[-1.1,119.8],[-0.7,120.0],[0.1,120.9],[-0.1,121.6],[-0.3,122.9],[-0.2,124.1],[0.5,125.0],[0.3,125.2]],[[0.2,128.7],[-0.7,128.7],[-0.6,128.1],[-1.2,128.0],[-1.8,128.4],[-1.3,127.7],[-0.0,127.4],[0.8,127.6],[1.2,127.9],[0.6,128.0],[0.5,128.6],[0.2,128.7]],[[-7.4,106.0],[-7.5,104.9],[-6.7,104.0],[-5.9,102.7],[-5.3,102.2],[-4.4,101.5],[-3.7,101.0],[-2.3,100.2],[-1.5,99.3],[-0.7,99.0],[0.1,98.6],[0.7,97.7],[1.6,97.1],[2.1,96.4],[3.2,95.3],[3.7,95.2],[3.7,95.9],[3.5,97.4],[2.5,98.3],[1.9,99.1],[1.5,99.7],[0.4,100.6],[0.4,101.6],[-0.3,102.5],[-1.1,103.1],[-1.5,103.8],[-2.3,103.5],[-2.7,104.0],[-3.4,104.6],[-3.9,104.9],[-4.0,105.7],[-4.6,106.2],[-5.9,106.0],[-7.4,106.0]],[[0.5,117.9],[-0.3,119.0],[-0.5,117.8],[-1.2,117.5],[-2.1,117.6],[-2.8,116.6],[-3.8,116.6],[-5.3,116.3],[-5.5,115.0],[-4.9,114.6],[-4.8,113.9],[-4.5,113.4],[-4.9,112.2],[-4.4,111.8],[-4.5,111.1],[-4.4,110.3],[-3.1,110.1],[-2.8,109.6],[-2.0,109.1],[-1.1,109.0],[-0.2,109.0],[0.5,109.6],[0.2,110.4],[0.4,111.1],[1.2,111.3],[1.4,111.8],[1.7,112.9],[2.5,113.6],[3.1,114.1],[3.5,114.5],[4.1,115.3],[4.8,116.1],[5.6,116.6],[5.1,117.5],[4.4,118.2],[4.2,119.1],[3.7,118.3],[3.2,118.5],[2.9,117.8],[1.9,117.2],[1.0,118.0],[0.5,117.9]],[[7.4,126.1],[6.7,126.3],[6.1,126.3],[5.2,126.0],[6.2,125.6],[5.7,125.2],[5.0,125.5],[4.5,125.2],[5.1,124.1],[5.8,123.7],[6.2,124.1],[6.7,123.4],[6.3,123.1],[5.7,121.9],[6.9,122.1],[7.2,122.7],[7.5,123.3],[7.1,123.6],[7.4,124.4],[7.9,124.5],[7.9,125.2],[8.7,125.1],[8.2,126.0],[7.7,126.1],[7.4,126.1]],[[4.2,81.2],[4.0,80.3],[4.8,79.8],[6.2,79.6],[7.9,80.1],[7.3,80.8],[6.6,81.2],[5.6,81.7],[4.5,81.6],[4.2,81.2]],[[9.1,123.7],[8.8,123.4],[8.2,123.1],[7.9,122.8],[8.5,122.1],[9.1,122.5],[9.7,122.7],[9.8,123.2],[9.1,123.1],[10.1,123.8],[9.1,123.7]],[[8.0,118.3],[7.1,117.0],[7.8,117.4],[8.4,118.1],[9.1,118.7],[10.1,119.2],[9.3,119.4],[8.8,118.8],[8.0,118.3]],[[10.7,121.5],[10.4,122.2],[10.4,122.8],[9.6,122.4],[9.3,121.7],[10.2,121.7],[10.7,121.5]],[[11.1,125.1],[10.0,125.5],[10.2,124.7],[9.3,125.0],[9.0,124.5],[9.8,124.4],[10.4,124.0],[10.3,124.6],[11.5,123.9],[11.5,124.9],[11.1,125.1]],[[17.3,120.8],[17.0,121.4],[17.3,121.7],[16.6,121.7],[15.9,122.0],[15.1,121.8],[14.7,121.2],[13.9,121.1],[13.2,121.3],[13.0,121.9],[13.2,122.3],[12.7,123.6],[12.1,123.5],[11.9,123.8],[11.9,122.9],[12.4,122.6],[12.0,122.3],[12.6,121.7],[12.4,120.8],[12.6,120.3],[13.3,120.6],[13.2,120.2],[13.7,119.7],[14.2,119.5],[15.1,119.5],[14.8,119.9],[16.4,119.9],[17.3,120.2],[17.3,120.8]],[[17.2,109.9],[16.7,109.1],[17.0,108.2],[17.9,108.2],[18.3,108.7],[18.6,109.7],[18.6,110.3],[18.2,110.6],[17.8,110.1],[17.2,109.9]],[[21.6,120.5],[20.7,120.1],[21.6,119.6],[22.3,119.4],[23.3,120.0],[24.1,120.8],[23.8,121.2],[23.2,121.1],[21.6,120.5]],[[33.3,133.4],[32.4,133.0],[32.7,132.6],[32.4,132.1],[31.8,131.9],[32.1,131.2],[33.2,131.7],[33.1,132.3],[33.5,132.7],[33.3,133.4]],[[34.0,35.3],[33.6,34.7],[32.9,33.7],[33.1,33.3],[33.5,33.0],[33.5,33.6],[33.7,34.4],[34.0,35.3]],[[34.3,24.7],[33.9,25.2],[34.0,26.0],[33.9,26.7],[33.8,27.2],[33.4,25.7],[33.8,24.5],[34.3,24.7]],[[37.0,16.7],[36.2,16.3],[35.4,16.3],[35.8,15.5],[35.9,15.0],[36.5,13.7],[37.0,13.8],[36.8,15.0],[36.9,16.0],[37.0,16.7]],[[40.2,10.7],[39.4,11.2],[38.1,11.0],[37.9,10.2],[38.1,9.8],[39.4,9.8],[39.9,9.6],[39.9,10.1],[40.2,10.7]],[[36.5,139.6],[35.7,139.2],[35.2,139.4],[34.5,139.0],[34.0,137.7],[33.9,136.0],[32.7,134.6],[33.0,133.9],[33.8,133.8],[33.5,132.1],[33.0,131.0],[32.9,129.8],[32.3,130.9],[30.5,130.3],[30.1,129.6],[30.5,129.1],[31.4,129.4],[31.7,128.7],[32.3,128.3],[32.7,129.2],[33.3,129.7],[33.9,130.7],[34.6,131.4],[34.9,133.3],[34.7,134.4],[36.6,135.3],[36.1,136.0],[37.1,137.4],[37.6,138.0],[38.8,138.5],[39.9,138.3],[40.6,138.7],[40.8,139.7],[39.4,140.3],[38.6,140.3],[37.6,139.5],[36.5,139.6]],[[43.7,142.1],[43.5,142.8],[43.9,143.4],[42.8,143.7],[42.5,142.3],[41.5,141.5],[42.1,139.9],[41.0,139.4],[40.9,138.3],[41.9,138.1],[42.7,138.5],[42.8,139.6],[44.2,139.8],[45.0,140.0],[44.0,141.3],[43.7,142.1]],[[47.9,-62.0],[47.7,-61.3],[47.7,-60.4],[47.3,-60.9],[47.7,-62.5],[48.0,-62.8],[48.4,-62.4],[47.9,-62.0]],[[51.8,-54.0],[50.9,-54.8],[51.2,-54.1],[51.0,-53.4],[50.6,-53.8],[50.4,-52.9],[50.6,-52.4],[50.3,-51.4],[49.6,-51.8],[49.7,-51.1],[49.2,-51.0],[48.6,-50.7],[47.7,-51.2],[47.9,-52.3],[48.7,-52.0],[48.0,-53.6],[48.0,-54.2],[48.5,-53.4],[48.7,-54.4],[48.7,-55.5],[48.8,-57.5],[49.4,-57.0],[49.7,-57.4],[50.3,-56.5],[51.8,-55.3],[52.4,-54.6],[52.7,-53.7],[52.4,-53.5],[51.8,-54.0]],[[55.9,-133.8],[56.0,-132.7],[54.8,-133.0],[54.1,-132.1],[54.5,-133.1],[54.9,-133.5],[55.3,-134.1],[55.7,-134.3],[55.9,-133.8]],[[50.2,141.3],[48.5,142.4],[48.8,141.0],[47.3,140.4],[46.3,141.5],[45.6,141.5],[46.2,140.7],[45.4,140.1],[46.2,139.9],[47.2,139.9],[48.3,139.7],[49.0,139.9],[50.4,139.8],[51.3,139.2],[52.7,139.2],[53.2,140.0],[53.6,139.6],[53.8,140.0],[53.1,140.3],[52.2,140.8],[51.2,140.8],[50.2,141.3]],[[51.7,-4.4],[51.2,-6.2],[51.4,-7.5],[52.4,-6.6],[53.4,-7.1],[54.1,-5.6],[54.6,-4.8],[54.6,-4.0],[54.0,-3.0],[53.3,-3.6],[52.6,-3.5],[51.7,-4.4]],[[58.6,-155.1],[58.2,-156.1],[58.4,-156.7],[58.9,-156.9],[59.3,-156.0],[59.4,-155.4],[59.4,-154.7],[59.1,-154.3],[58.6,-155.1]],[[57.9,0.1],[56.9,-1.1],[57.0,-0.1],[56.9,0.9],[56.1,0.6],[55.3,-0.4],[55.2,0.6],[53.9,1.5],[53.7,2.1],[52.5,2.6],[52.1,2.9],[51.9,4.0],[51.3,3.9],[51.0,3.3],[50.5,3.7],[50.0,2.8],[50.0,1.4],[49.8,-0.3],[50.0,-0.7],[49.6,-1.4],[49.7,-2.3],[49.3,-3.0],[49.6,-3.5],[50.6,-2.0],[50.8,-1.1],[51.0,-2.6],[51.4,-2.9],[51.6,-1.8],[52.2,-2.3],[52.9,-2.1],[52.7,-0.6],[53.3,-0.4],[53.9,-1.0],[54.2,-2.2],[54.9,-2.0],[55.1,-2.3],[54.7,-2.9],[55.7,-2.8],[56.2,-3.3],[57.2,-2.8],[58.0,-1.9],[57.9,-1.2],[57.9,0.1]],[[64.7,-175.4],[64.6,-174.7],[64.7,-174.1],[64.4,-173.2],[64.3,-172.2],[64.0,-173.0],[64.2,-173.8],[64.4,-174.2],[64.3,-175.1],[64.7,-175.4]],[[67.4,-83.0],[67.0,-82.9],[67.1,-82.3],[66.9,-81.7],[66.5,-80.6],[66.2,-79.3],[65.8,-78.5],[65.4,-77.8],[65.1,-78.8],[65.4,-80.4],[65.8,-81.0],[65.3,-82.1],[64.8,-83.7],[65.4,-84.0],[65.4,-85.4],[65.8,-84.4],[66.6,-84.2],[67.5,-83.8],[67.4,-83.0]],[[66.1,-10.0],[65.5,-10.4],[64.8,-9.4],[64.0,-10.8],[63.5,-13.8],[63.3,-14.7],[63.5,-16.0],[63.9,-18.7],[64.3,-17.6],[64.9,-19.7],[65.0,-17.9],[65.6,-19.9],[66.2,-19.1],[66.3,-17.6],[65.6,-16.2],[66.1,-14.5],[65.8,-13.4],[66.2,-11.7],[66.1,-10.0]],[[68.7,-72.9],[68.7,-74.1],[69.2,-74.3],[69.8,-73.7],[69.9,-72.7],[69.6,-71.9],[69.0,-72.1],[68.7,-72.9]],[[69.6,175.0],[69.0,177.7],[68.0,-179.3],[67.4,-179.3],[67.2,-178.5],[67.9,-178.9],[67.9,-176.1],[67.0,-173.9],[66.5,-174.8],[66.3,-176.5],[65.4,-176.4],[65.2,-176.7],[65.2,-177.7],[65.5,-178.5],[65.7,-180.0],[66.2,179.7],[66.3,178.6],[66.1,177.5],[66.5,176.9],[66.6,175.9],[66.1,176.4],[65.7,175.9],[65.2,174.7],[65.2,173.3],[64.7,174.3],[63.9,175.1],[63.7,175.6],[63.2,175.8],[63.1,173.7],[62.3,171.0],[62.1,170.0],[61.4,168.6],[60.7,167.2],[60.2,166.9],[60.9,165.4],[60.0,162.8],[60.4,162.4],[59.9,161.4],[60.0,160.1],[59.3,159.9],[58.3,158.8],[57.7,160.0],[56.3,160.1],[56.2,159.2],[55.4,158.8],[55.0,159.3],[54.4,157.6],[53.2,157.4],[52.9,155.9],[51.9,155.7],[50.9,154.3],[51.6,153.9],[53.0,153.3],[55.2,152.6],[56.6,152.9],[57.3,153.6],[58.0,155.2],[59.3,156.8],[60.4,158.3],[61.3,160.1],[62.7,160.6],[62.6,159.4],[61.7,158.9],[60.6,156.5],[61.8,155.5],[61.3,153.1],[59.6,150.8],[59.0,151.7],[58.6,149.5],[58.5,148.0],[59.2,148.0],[59.3,146.4],[58.8,145.3],[58.8,142.2],[58.4,139.0],[56.4,136.1],[53.9,132.6],[53.8,134.1],[53.2,134.7],[53.0,135.6],[53.6,136.2],[53.5,137.3],[52.5,138.8],[51.6,138.9],[50.6,138.3],[49.4,138.3],[47.8,138.0],[46.3,136.6],[45.6,136.3],[44.4,135.0],[43.2,133.8],[42.6,133.2],[42.0,131.9],[41.9,131.3],[42.4,130.6],[41.6,129.3],[41.3,128.8],[41.0,128.4],[40.6,128.2],[39.9,128.2],[39.7,127.7],[39.2,127.2],[39.0,126.6],[38.7,126.1],[38.2,126.0],[38.0,126.4],[37.6,127.0],[36.5,127.9],[35.8,128.2],[34.7,128.2],[34.1,127.9],[33.9,127.0],[33.4,126.2],[33.3,125.3],[33.9,125.2],[34.6,125.4],[35.7,124.9],[35.8,125.6],[36.7,124.9],[36.8,124.4],[36.6,124.0],[36.8,123.7],[37.4,123.7],[38.3,124.0],[38.5,123.4],[38.8,122.9],[38.5,121.5],[38.0,120.9],[37.7,119.8],[38.2,120.3],[38.5,120.1],[39.2,120.8],[39.7,120.3],[39.4,119.4],[38.6,118.4],[38.0,117.8],[37.9,116.8],[37.4,116.4],[36.8,116.9],[36.6,117.7],[35.9,118.5],[36.6,119.6],[36.3,120.5],[36.3,121.1],[35.7,121.3],[35.4,120.0],[34.9,119.5],[34.4,118.6],[33.6,118.1],[33.1,119.2],[32.1,119.6],[31.2,120.2],[30.5,120.9],[29.7,121.0],[29.5,120.3],[28.9,120.6],[28.7,121.2],[27.8,121.1],[27.0,120.9],[26.9,120.3],[25.8,119.6],[24.5,118.8],[23.3,118.0],[22.3,116.6],[21.4,115.3],[21.3,114.2],[20.8,113.6],[21.1,113.2],[20.6,112.7],[20.1,111.3],[19.9,110.3],[18.9,110.0],[18.8,109.4],[19.5,109.1],[19.9,109.4],[20.2,108.0],[20.0,107.6],[19.1,106.3],[18.2,105.5],[17.5,105.3],[16.4,106.0],[15.2,107.0],[14.6,107.9],[13.8,108.5],[11.9,109.0],[10.2,108.9],[9.5,108.1],[8.8,107.0],[8.0,106.2],[7.0,105.0],[7.6,104.6],[8.3,104.9],[8.9,104.1],[9.0,103.3],[9.5,102.9],[10.5,102.4],[11.0,101.5],[10.9,100.6],[11.7,100.7],[11.7,99.9],[10.6,99.8],[9.1,99.3],[8.3,99.0],[7.5,99.1],[7.5,99.7],[6.6,100.1],[5.7,100.3],[5.2,100.9],[5.1,101.5],[4.6,102.0],[3.9,102.9],[3.2,103.3],[2.5,103.4],[1.8,103.4],[1.2,103.5],[0.9,103.8],[0.0,104.2],[-0.4,103.5],[0.3,102.5],[1.1,101.4],[1.6,101.2],[2.2,100.6],[3.1,100.5],[3.6,100.1],[4.3,100.2],[4.8,100.0],[5.1,99.6],[5.6,99.4],[6.2,98.9],[6.7,98.4],[6.1,98.2],[6.6,98.0],[7.2,98.1],[8.2,98.4],[8.9,98.3],[9.7,98.6],[10.3,98.2],[11.4,98.3],[11.9,97.9],[13.1,97.5],[14.3,97.3],[15.2,96.9],[14.7,96.2],[13.9,95.1],[14.0,94.6],[14.2,93.9],[15.5,94.3],[16.4,94.1],[17.6,93.2],[18.0,92.8],[18.8,92.1],[19.4,91.8],[19.9,91.7],[20.3,91.5],[20.9,91.1],[20.9,90.2],[20.0,90.0],[20.2,89.6],[20.2,88.8],[19.8,88.0],[19.6,86.7],[18.9,86.8],[18.3,86.3],[17.6,84.9],[16.4,83.8],[15.7,83.0],[15.1,82.0],[14.4,81.6],[14.0,80.7],[13.2,79.9],[11.9,80.1],[11.1,80.2],[10.1,79.8],[8.4,79.8],[8.4,79.3],[7.6,78.8],[7.2,79.1],[7.0,78.2],[6.3,77.9],[6.0,77.5],[6.9,76.6],[8.3,76.1],[9.3,75.7],[9.8,75.3],[10.8,74.8],[12.0,74.6],[12.6,74.4],[14.0,73.5],[15.9,73.1],[17.2,72.8],[18.4,72.8],[19.4,72.6],[18.8,71.1],[18.9,70.4],[20.1,69.2],[20.4,69.6],[20.8,69.3],[21.7,68.2],[21.9,67.4],[22.7,67.2],[23.4,66.4],[23.2,64.6],[23.2,63.0],[23.1,61.6],[23.4,59.8],[23.6,58.7],[23.8,57.6],[25.0,57.2],[25.2,56.7],[25.0,55.9],[24.5,54.9],[24.9,53.7],[25.6,52.8],[25.9,51.8],[26.9,51.2],[28.2,50.4],[28.1,49.9],[28.4,49.3],[28.0,48.9],[28.1,48.3],[27.7,48.5],[26.7,48.8],[25.8,49.1],[25.6,49.6],[24.8,50.5],[24.0,50.4],[23.4,50.8],[22.8,51.1],[23.6,51.0],[24.1,51.3],[23.9,51.8],[23.3,51.9],[22.7,51.6],[22.3,51.8],[22.2,52.8],[22.2,53.6],[22.2,54.2],[22.9,54.9],[23.5,55.6],[24.1,56.3],[24.4,56.6],[23.7,56.4],[23.0,56.6],[22.3,57.0],[21.9,57.6],[21.8,58.3],[21.6,58.9],[21.0,59.3],[20.7,59.6],[20.3,59.9],[19.7,59.5],[19.1,59.0],[18.4,58.6],[18.3,58.0],[17.8,57.8],[17.1,57.9],[17.0,57.4],[16.6,56.7],[16.1,56.6],[15.9,55.8],[15.7,55.4],[15.0,54.9],[15.1,54.4],[14.8,53.7],[14.5,52.5],[14.0,52.3],[13.3,51.3],[12.8,49.7],[12.1,48.8],[12.1,48.1],[11.7,47.5],[11.5,46.9],[11.5,46.0],[11.2,45.6],[10.9,45.2],[10.8,44.3],[10.8,43.6],[11.4,43.4],[12.0,43.4],[13.0,43.1],[13.4,42.8],[13.9,42.9],[14.5,43.0],[15.0,42.9],[15.3,42.6],[16.0,42.0],[16.9,41.5],[17.7,41.2],[18.4,40.6],[18.6,40.1],[19.5,39.5],[20.2,39.4],[20.8,39.5],[21.9,38.9],[22.4,38.5],[22.6,37.9],[23.1,37.6],[23.9,37.4],[24.9,36.8],[25.7,36.2],[26.4,35.7],[26.9,35.4],[27.7,35.5],[26.7,35.0],[26.1,34.7],[26.3,34.2],[26.8,33.7],[28.2,33.1],[27.1,33.3],[26.1,33.9],[24.5,34.6],[23.9,35.0],[23.3,35.3],[22.2,36.1],[21.4,36.0],[20.5,37.1],[19.3,37.6],[18.1,37.5],[16.9,37.8],[16.6,38.2],[16.3,38.7],[15.1,39.3],[14.2,39.5],[13.7,40.1],[12.7,41.4],[12.1,41.9],[11.5,42.5],[11.2,42.8],[10.9,43.3],[10.2,43.4],[9.9,42.9],[9.6,43.3],[9.0,43.8],[8.6,44.3],[8.8,45.7],[9.0,46.8],[9.2,47.6],[9.3,48.2],[9.5,49.1],[9.7,49.9],[9.8,50.4],[10.1,50.8],[9.8,51.2],[9.2,51.2],[8.4,50.9],[7.3,50.6],[6.2,50.2],[4.9,49.5],[3.5,48.7],[2.3,47.8],[1.0,46.6],[0.2,45.6],[-0.8,44.1],[-1.5,43.1],[-2.7,42.0],[-3.2,41.8],[-3.9,40.8],[-4.3,40.6],[-5.0,40.0],[-5.4,39.7],[-6.1,39.5],[-6.4,39.1],[-7.7,38.6],[-8.2,38.7],[-8.6,39.3],[-9.5,39.1],[-10.2,39.0],[-10.9,39.4],[-11.9,39.8],[-12.1,40.1],[-12.6,40.3],[-13.5,40.2],[-14.4,40.3],[-16.0,40.4],[-16.5,40.5],[-17.2,40.2],[-17.9,39.8],[-18.5,39.2],[-18.8,38.2],[-19.3,37.1],[-20.4,35.9],[-20.5,35.5],[-21.2,34.8],[-21.5,34.4],[-22.2,34.3],[-22.9,34.8],[-23.5,34.9],[-24.8,35.0],[-25.2,34.9],[-25.8,35.0],[-26.1,34.5],[-26.5,33.7],[-27.0,32.5],[-27.4,32.0],[-27.9,32.3],[-29.1,31.9]],[[-16.9,11.3],[-16.0,11.7],[-14.7,12.1],[-14.3,12.3],[-13.6,12.9],[-13.2,13.2],[-12.5,13.4],[-11.9,13.4],[-11.5,13.1],[-10.9,12.8],[-10.3,12.6],[-9.7,13.0],[-8.8,12.7],[-8.1,12.5],[-7.4,12.0],[-6.1,11.8],[-5.1,11.0],[-4.0,10.0],[-3.2,9.3],[-2.1,8.8],[-1.5,9.0],[-0.8,9.3],[-0.0,9.5],[1.2,9.7],[2.0,9.9],[2.7,9.5],[2.9,9.0],[3.3,8.9],[3.7,8.6],[3.4,7.6],[3.3,6.8],[3.3,6.0],[4.0,5.5],[4.7,5.2],[5.4,4.5],[5.4,3.8],[5.4,2.9],[5.3,2.0],[5.1,1.2],[4.6,-0.3],[4.3,-0.9],[4.0,-1.8],[4.3,-2.7],[4.5,-3.9],[4.6,-4.5],[4.5,-5.7],[4.2,-6.4],[3.9,-7.4],[4.4,-8.9],[5.1,-9.8],[5.7,-10.6],[6.4,-11.2],[6.9,-12.2],[7.5,-12.7],[8.6,-12.9],[9.2,-13.4],[9.6,-13.7],[9.9,-14.2],[10.6,-14.5],[11.2,-15.2],[11.6,-15.9],[12.0,-16.2],[13.0,-16.3],[14.2,-16.6],[14.6,-17.1],[14.7,-16.7],[15.4,-16.2],[15.9,-15.9],[16.5,-16.0],[17.0,-15.7],[17.9,-15.5],[18.9,-15.6],[19.4,-15.7],[19.9,-15.5],[20.4,-15.8],[20.8,-16.3],[21.7,-16.2],[22.0,-15.8],[22.5,-15.4],[23.5,-15.1],[24.1,-14.5],[24.9,-13.9],[25.4,-13.8],[26.0,-13.5],[26.3,-12.8],[27.3,-12.1],[27.7,-11.6],[27.8,-10.6],[28.4,-9.8],[28.7,-9.3],[29.5,-8.4],[30.7,-8.6],[31.6,-8.2],[32.1,-8.1],[32.8,-7.4],[33.2,-6.4],[33.6,-5.6],[34.6,-4.9],[35.2,-4.6],[35.1,-3.9],[34.7,-3.3],[34.7,-2.3],[34.5,-1.3],[35.0,0.1],[35.1,1.2],[35.5,1.8],[35.8,2.8],[35.9,4.5],[35.9,6.1],[35.8,6.6],[36.1,7.6],[36.1,8.6],[35.9,9.0],[35.9,9.7],[36.3,10.8],[36.2,11.5],[35.6,11.4],[36.0,12.3],[35.3,11.8],[34.6,12.1],[33.7,11.9],[33.3,11.3],[32.7,11.4],[32.2,12.2],[31.6,13.7],[31.5,14.9],[31.0,16.2],[30.1,16.7],[29.9,17.5],[29.5,18.9],[28.9,19.9],[29.2,20.4],[29.6,20.9],[30.4,20.7],[30.9,21.0],[31.3,21.8],[31.5,22.4],[31.2,23.8],[30.8,24.1],[30.6,24.8],[30.4,25.7],[30.1,26.0],[30.1,27.3],[29.8,28.2],[29.5,29.2],[29.3,29.6],[29.6,30.4],[29.9,30.8],[30.0,31.7],[29.8,32.4],[29.3,32.6],[29.6,32.9],[29.4,33.7],[29.3,34.4],[29.5,34.9],[29.9,35.2],[30.4,35.4],[31.1,35.6],[32.2,36.2],[32.9,36.7],[33.7,36.6],[34.1,36.9],[34.6,36.5],[34.9,36.9],[34.9,36.3],[35.1,35.5],[34.6,34.8],[34.5,33.3],[35.0,32.6],[35.1,31.5],[34.7,31.3],[34.6,30.6],[35.1,29.6],[35.1,28.6],[36.1,28.0],[36.7,27.3],[37.5,27.8],[38.0,27.2],[38.9,28.3],[38.9,29.9],[39.6,30.3],[39.5,32.2],[40.1,33.3],[40.4,34.5],[40.4,36.1],[39.6,37.8],[39.2,39.2],[39.3,40.3],[39.2,41.1],[39.7,42.3],[40.2,42.5],[40.8,42.2],[41.2,41.7],[41.4,41.2],[41.7,40.8],[42.5,39.6],[42.9,38.5],[43.5,37.7],[43.7,38.4],[44.5,39.2],[44.9,38.7],[45.3,40.1],[45.4,39.2],[45.3,38.5],[45.0,37.8],[44.9,36.9],[44.6,36.0],[44.0,36.1],[43.7,36.6],[43.8,37.6],[43.2,36.3],[42.7,34.9],[42.9,34.4],[43.4,34.6],[43.7,33.6],[44.2,34.7],[44.7,32.9],[45.0,32.0],[44.4,31.6],[43.7,30.8],[43.2,30.3],[42.1,29.7],[41.8,29.2],[41.0,28.8],[40.5,29.1],[39.7,30.0],[39.5,28.7],[39.2,28.3],[38.6,27.4],[39.1,27.2],[39.4,26.6],[39.5,26.1],[39.2,24.9],[38.7,25.5],[38.5,25.0],[38.5,24.5],[39.1,24.0],[38.2,24.0],[37.8,24.5],[37.5,24.1],[37.1,24.6],[36.8,25.1],[36.2,25.1],[36.5,24.2],[36.0,24.4],[35.9,23.8],[35.0,24.2],[35.0,23.5],[35.5,22.7],[36.3,22.4],[36.9,22.2],[37.4,21.9],[38.0,21.4],[38.3,21.2],[38.9,20.6],[39.4,20.6],[40.1,20.7],[40.6,20.5],[41.0,20.2],[41.2,19.8],[41.6,18.9],[41.9,18.3],[42.3,17.5],[43.0,16.7],[43.5,16.4],[44.0,15.8],[43.6,15.5],[44.0,15.3],[44.4,15.5],[44.6,14.8],[44.2,14.0],[43.5,13.9],[42.9,14.1],[42.4,15.0],[41.6,15.5],[40.7,16.5],[40.7,17.3],[39.9,18.1],[39.6,18.8],[39.0,19.6],[38.5,19.5],[39.0,19.0],[39.2,18.2],[38.5,17.7],[38.1,18.4],[37.6,18.3],[36.7,17.3],[37.0,16.9],[37.5,17.1],[38.3,17.0],[38.8,16.7],[39.4,16.0],[39.6,15.4],[40.0,15.0],[40.1,14.3],[40.6,13.5],[41.2,12.7],[41.8,12.0],[42.8,11.8],[43.0,11.3],[43.3,10.5],[43.2,10.0],[42.8,9.5],[42.1,8.1],[42.5,6.2],[42.2,4.8],[41.6,4.6],[41.0,4.6],[40.4,3.6],[40.2,2.4],[39.4,1.7],[38.6,1.2],[38.0,1.6],[37.5,1.0],[36.9,0.7],[36.7,-0.0],[36.0,-0.8],[36.0,-2.0],[36.0,-3.0],[35.7,-3.6],[35.4,-4.0],[35.4,-4.5],[35.8,-4.8],[36.4,-5.1],[36.6,-6.0],[36.3,-6.4],[36.5,-6.9],[36.4,-7.5],[37.2,-7.3],[37.8,-7.3],[38.3,-8.0],[38.9,-7.9],[39.3,-7.4],[40.3,-7.1],[41.1,-7.3],[42.1,-7.2],[42.6,-7.6],[43.2,-6.2],[43.0,-4.9],[43.0,-3.6],[42.8,-2.6],[42.8,-1.7],[42.7,-0.2],[43.3,0.4],[45.3,0.7],[46.4,-0.2],[46.9,-0.9],[47.3,-2.4],[48.0,-2.4],[48.2,-1.2],[47.9,0.5],[49.0,0.2],[48.6,1.1],[49.3,3.5],[50.1,3.8],[50.3,4.7],[50.5,5.5],[50.7,6.0],[52.2,7.0],[52.5,8.4],[52.5,9.2],[52.7,10.3],[53.0,11.1],[53.3,10.9],[53.9,10.9],[54.5,10.6],[55.5,10.6],[56.1,11.1],[56.1,12.0],[56.4,12.4],[56.6,13.2],[56.1,13.1],[55.8,12.8],[55.3,13.3],[55.0,13.1],[54.4,12.0],[53.9,12.3],[53.2,13.2],[53.0,14.2],[53.3,14.7],[52.9,15.8],[52.5,16.2],[52.8,16.9],[53.2,18.5],[53.5,19.7],[53.4,20.7],[53.1,21.7],[53.5,21.9],[53.8,23.3],[54.6,23.1],[55.4,23.2],[56.0,23.8],[56.3,24.7],[55.6,25.4],[55.6,26.1],[56.3,26.4],[56.9,26.6],[57.2,25.6],[57.7,25.6],[58.0,26.8],[58.1,28.0],[57.9,29.0],[57.9,30.0],[58.4,31.2],[58.9,30.2],[58.9,28.5],[58.6,26.8],[58.4,25.2],[59.0,24.7],[59.3,23.8],[60.3,24.1],[61.2,23.8],[61.8,24.3],[62.4,25.2],[63.4,27.5],[63.6,28.1],[64.5,26.8],[64.3,25.2],[63.6,24.2],[63.0,24.2],[62.2,22.6],[61.4,20.7],[60.0,19.9],[59.3,20.4],[58.7,21.3],[57.7,20.3],[57.4,19.3],[55.8,18.8],[54.8,18.1],[55.0,17.0],[54.2,16.4],[54.2,15.2],[55.1,15.0],[56.3,14.3],[57.7,13.7],[58.4,13.1],[57.3,11.1],[57.1,9.8],[57.6,8.5],[58.7,8.3],[61.0,8.2],[61.6,9.2],[62.4,11.8],[63.3,13.9],[64.7,15.9],[66.6,18.4],[67.3,20.2],[68.5,23.0],[68.8,25.1],[68.7,26.7],[69.5,28.2],[69.5,30.0],[69.6,31.6],[68.8,34.4],[68.6,33.2],[67.9,34.1],[68.3,35.1],[67.6,36.5],[67.3,39.0],[66.1,42.4],[65.7,43.1],[65.0,43.1],[64.5,42.0],[64.2,40.5],[65.1,36.4],[65.0,35.7],[64.2,37.1],[62.7,37.1],[62.4,38.3],[62.1,39.0],[62.6,39.2],[63.1,38.6],[63.4,39.3],[62.7,41.4],[63.0,42.3],[63.7,41.7],[64.7,44.0],[64.6,44.8],[64.2,45.7],[64.9,46.2],[65.5,45.5],[66.1,46.0],[66.7,45.4],[66.4,48.0],[65.8,48.5],[65.7,47.3],[65.1,47.2],[64.8,47.9],[65.0,49.4],[65.6,49.6],[66.1,51.6],[66.9,54.9],[66.9,55.6],[66.3,54.6],[66.2,55.8],[66.5,56.4],[66.5,58.2],[66.9,59.5],[66.3,60.6],[67.0,61.6],[67.5,60.7],[67.9,61.2],[67.6,63.9],[67.2,65.1],[66.1,68.5],[66.6,69.1],[67.1,68.1],[67.5,67.0],[67.9,67.3],[68.7,66.8],[69.9,68.5],[70.8,69.0],[71.0,69.8],[70.8,72.1],[70.2,72.4],[69.4,71.5],[69.1,72.1],[68.4,72.4],[67.0,72.2],[66.4,73.2],[65.8,72.8],[64.3,71.0],[64.2,72.1],[64.5,72.4],[64.8,73.5],[65.3,73.7],[65.8,74.5],[66.3,74.0],[67.0,74.4],[67.1,73.4],[67.6,73.1],[68.6,73.8],[69.4,72.6],[70.1,74.2],[70.9,74.0],[70.3,74.9],[69.4,74.6],[69.2,75.6],[69.9,75.1],[70.3,76.6],[70.4,78.5],[69.8,80.2],[70.6,79.4],[71.7,79.2],[71.9,80.7],[71.9,82.9],[72.0,84.8],[72.5,84.1],[73.2,85.0],[73.3,86.0],[73.8,87.6],[73.9,89.9],[74.3,92.5],[74.1,93.3],[74.7,95.1],[74.7,96.8],[75.6,97.6],[76.0,99.5],[75.8,101.2],[75.5,100.1],[75.4,102.1],[74.9,102.6],[75.1,103.2],[75.2,105.9],[74.8,108.1],[74.4,108.9],[73.9,108.9],[73.5,108.0],[72.9,105.8],[72.6,105.2],[72.5,106.3],[72.3,107.7],[72.5,108.5],[71.9,109.1],[72.2,109.5],[72.3,110.9],[72.3,113.9],[71.8,114.3],[71.8,118.2],[72.5,118.0],[72.4,120.1],[72.5,121.5],[72.0,123.2],[71.3,123.8],[70.9,123.4],[70.2,124.8],[69.8,126.4],[70.9,127.0],[70.5,128.7],[70.8,130.2],[70.6,132.2],[70.9,132.8],[70.8,134.4],[71.7,133.4],[72.1,134.5],[71.8,143.5],[71.2,144.5],[70.6,147.3],[70.9,151.3],[70.8,153.2],[70.4,154.2],[69.7,154.3],[69.5,155.6],[69.7,156.9],[69.8,158.7],[69.7,160.6],[69.8,162.4],[69.0,164.5],[69.4,165.7],[70.0,164.6],[70.4,165.0],[70.3,168.2],[70.4,170.4],[70.0,173.5],[69.6,175.0]],[[39.4,49.6],[38.7,50.1],[38.3,50.9],[38.3,50.1],[37.5,49.9],[36.9,49.4],[35.7,49.7],[35.5,50.6],[35.0,51.3],[34.8,52.7],[35.0,54.2],[36.0,54.1],[37.0,54.3],[37.4,53.5],[38.0,53.8],[38.1,53.1],[38.9,53.4],[38.7,54.3],[39.0,55.1],[39.6,54.4],[40.2,54.1],[39.9,53.4],[39.2,53.2],[39.9,52.9],[40.5,53.2],[41.2,51.8],[42.1,51.4],[42.4,50.9],[42.6,51.8],[43.3,51.9],[43.5,52.7],[43.3,53.5],[44.3,53.7],[44.9,53.6],[44.9,52.6],[45.1,51.8],[44.7,50.6],[44.5,49.8],[43.9,49.3],[43.8,48.4],[42.7,47.4],[41.8,48.2],[41.1,48.1],[39.9,49.2],[39.4,49.6]],[[71.0,-94.0],[70.7,-94.7],[71.0,-96.2],[70.9,-97.1],[71.3,-98.6],[71.7,-97.6],[72.1,-96.7],[71.8,-95.6],[71.6,-95.0],[71.0,-94.0]],[[71.3,-88.4],[70.3,-88.5],[71.1,-87.0],[70.4,-85.7],[69.7,-86.1],[69.0,-85.2],[69.7,-84.0],[70.6,-83.1],[71.6,-82.9],[71.5,-81.3],[71.4,-79.7],[70.9,-78.3],[70.3,-78.4],[69.9,-79.2],[69.3,-78.6],[68.8,-78.8],[68.1,-81.0],[68.0,-82.5],[68.3,-83.6],[67.8,-84.0],[67.0,-85.0],[66.6,-85.4],[65.9,-86.7],[65.9,-88.3],[65.5,-89.1],[64.8,-89.2],[64.7,-90.5],[63.9,-91.8],[62.8,-93.1],[62.0,-93.5],[60.9,-93.6],[60.7,-92.1],[59.7,-91.7],[59.0,-91.2],[59.1,-89.7],[58.7,-87.8],[58.3,-86.7],[57.8,-86.0],[57.5,-84.7],[57.1,-83.6],[57.0,-81.9],[56.9,-80.8],[56.0,-81.0],[55.0,-80.7],[53.9,-80.0],[52.9,-78.5],[53.2,-77.7],[54.2,-77.1],[55.8,-77.6],[56.4,-78.2],[56.8,-76.5],[57.5,-75.3],[58.2,-74.7],[58.8,-74.7],[59.6,-75.4],[60.5,-76.6],[61.5,-75.3],[62.4,-75.6],[64.0,-75.9],[64.2,-75.1],[63.9,-73.3],[63.7,-72.2],[64.0,-71.3],[63.6,-70.4],[63.0,-69.1],[62.6,-68.9],[62.5,-67.0],[61.7,-67.2],[60.4,-66.9],[60.2,-66.0],[59.6,-65.3],[60.1,-63.7],[61.2,-62.6],[61.6,-61.9],[60.8,-61.1],[59.4,-60.0],[58.2,-58.9],[57.6,-59.4],[57.0,-58.0],[56.4,-57.2],[56.1,-55.6],[55.7,-55.0],[54.9,-54.6],[54.8,-53.8],[54.3,-53.5],[53.2,-53.5],[52.9,-54.2],[52.5,-55.0],[52.2,-56.7],[51.5,-58.0],[51.3,-59.8],[51.6,-62.0],[51.7,-63.5],[51.6,-64.6],[50.9,-65.6],[50.5,-66.9],[49.2,-68.4],[48.3,-69.7],[48.4,-68.8],[49.7,-67.0],[50.5,-64.8],[50.6,-63.3],[50.1,-62.4],[49.4,-63.4],[48.3,-63.2],[47.6,-62.9],[47.1,-61.5],[47.1,-59.9],[48.2,-58.8],[47.5,-58.8],[47.1,-58.1],[46.5,-59.4],[46.0,-61.7],[45.6,-62.7],[44.9,-64.0],[45.0,-64.7],[45.8,-64.7],[46.6,-62.9],[46.6,-64.5],[46.5,-65.7],[45.8,-66.6]],[[53.6,-128.7],[54.3,-128.6],[54.6,-129.9],[55.5,-130.2],[56.2,-131.4],[56.7,-131.5],[57.0,-132.1],[57.4,-133.0],[58.2,-133.3],[59.0,-134.7],[60.0,-135.4],[60.0,-136.4],[60.0,-138.1],[60.3,-139.3],[61.3,-141.6],[61.5,-142.6],[61.8,-144.5],[61.7,-145.9],[62.1,-148.0],[62.5,-149.3],[62.3,-150.4],[61.6,-150.2],[61.5,-150.7],[61.3,-151.9],[60.9,-152.8],[60.7,-154.0],[61.2,-154.2],[62.2,-153.8],[62.6,-152.7],[62.2,-154.3],[61.5,-154.9],[60.8,-156.4],[60.3,-155.6],[59.6,-156.5],[59.2,-157.6],[58.9,-158.6],[58.4,-158.8],[57.8,-160.4],[57.3,-160.7],[56.9,-161.9],[56.9,-162.6],[56.6,-163.5],[56.3,-164.5],[55.9,-165.3],[55.6,-167.1],[56.3,-166.2],[56.6,-165.2],[57.2,-164.2],[57.3,-162.9],[57.7,-162.4],[58.4,-161.0],[58.9,-160.1],[59.7,-160.0],[60.3,-159.5],[59.9,-160.7],[60.1,-161.0],[59.7,-161.5],[60.3,-162.3],[59.9,-162.5],[60.4,-163.0],[59.9,-163.9],[59.9,-164.6],[60.5,-164.7],[61.2,-165.3],[61.0,-166.6],[61.4,-167.5],[61.6,-168.3],[62.2,-168.4],[62.6,-169.2],[63.2,-168.9],[63.8,-168.2],[64.3,-167.8],[64.4,-167.0],[64.3,-166.3],[64.8,-165.5],[64.7,-164.7],[65.1,-164.0],[65.5,-164.2],[65.6,-164.8],[66.1,-164.1],[66.0,-164.8],[65.8,-165.8],[65.8,-167.0],[65.6,-168.5],[65.8,-170.1],[66.2,-170.5],[66.7,-172.0],[67.2,-170.6],[67.7,-168.3],[67.8,-167.4],[67.3,-167.5],[67.4,-165.3],[68.0,-166.3],[68.3,-167.6],[68.8,-168.5],[69.2,-169.6],[69.4,-171.1],[70.0,-170.6],[70.1,-168.8],[70.6,-167.6],[71.1,-167.4],[71.6,-166.5],[71.7,-165.5],[72.2,-163.6],[72.2,-162.6],[72.7,-161.1],[72.6,-159.4],[72.1,-158.5],[72.3,-158.1],[72.3,-156.2],[71.9,-154.6],[72.1,-153.5],[71.8,-151.1],[71.7,-149.0],[71.6,-148.2],[71.8,-146.8],[71.5,-145.1],[71.4,-143.8],[71.2,-141.8],[70.8,-140.0],[70.7,-138.8],[71.1,-138.0],[71.5,-136.7],[71.4,-135.0],[71.8,-133.5],[72.1,-131.7],[71.7,-130.9],[71.9,-130.1],[72.4,-129.9],[72.3,-129.1],[71.4,-127.2],[72.1,-125.7],[71.4,-125.6],[71.5,-124.2],[71.8,-123.8],[71.8,-122.4],[71.4,-120.8],[71.0,-118.2],[70.8,-116.7],[70.9,-115.6],[70.4,-114.1],[69.9,-115.6],[69.7,-113.6],[69.8,-110.7],[70.0,-109.8],[69.4,-108.6],[69.9,-107.4],[70.3,-108.5],[70.7,-107.8],[70.7,-106.4],[70.8,-105.5],[70.5,-104.7],[70.0,-103.6],[70.1,-102.4],[69.6,-100.5],[69.8,-98.8],[69.7,-97.2],[70.3,-97.3],[70.5,-96.3],[70.1,-94.6],[69.2,-94.7],[70.0,-93.9],[70.0,-93.0],[71.0,-92.5],[71.6,-93.6],[72.0,-94.8],[73.1,-94.6],[73.8,-93.2],[73.6,-91.8],[73.2,-90.7],[72.1,-89.3],[71.6,-90.4],[71.3,-88.4]],[[75.1,-114.5],[74.7,-115.0],[75.0,-112.5],[74.5,-110.9],[74.9,-109.6],[74.6,-108.6],[73.7,-107.7],[74.1,-107.2],[75.1,-107.9],[75.2,-106.9],[75.1,-105.8],[74.7,-104.5],[73.7,-104.0],[73.0,-103.6],[72.5,-101.8],[72.0,-99.8],[71.5,-100.0],[71.5,-101.8],[71.1,-101.1],[70.7,-101.5],[70.9,-103.4],[71.2,-105.4],[71.1,-106.6],[70.8,-108.7],[70.6,-111.9],[70.5,-113.4],[71.0,-114.1],[71.3,-115.6],[71.2,-116.5],[71.9,-117.9],[72.1,-117.2],[72.2,-115.4],[72.2,-113.9],[72.4,-112.4],[72.6,-114.6],[72.5,-117.0],[72.5,-118.6],[72.9,-119.2],[73.3,-116.6],[73.3,-118.3],[73.5,-120.3],[74.3,-119.4],[74.7,-118.6],[75.3,-115.6],[75.1,-114.5]],[[74.7,-72.1],[74.5,-73.3],[74.5,-74.4],[74.4,-75.7],[75.0,-77.0],[75.4,-76.4],[75.3,-73.9],[74.7,-72.1]],[[75.0,-83.4],[74.3,-82.6],[75.1,-81.5],[75.4,-78.5],[74.4,-76.9],[73.8,-77.2],[74.0,-75.0],[74.4,-73.8],[73.8,-71.5],[73.3,-70.2],[73.0,-68.1],[72.4,-67.1],[71.9,-64.6],[71.5,-63.8],[70.6,-62.9],[70.1,-65.0],[69.4,-62.7],[69.2,-61.0],[68.2,-59.7],[68.1,-58.1],[67.4,-58.5],[66.3,-60.6],[66.7,-61.8],[67.8,-63.3],[67.7,-64.6],[67.1,-64.9],[66.5,-63.9],[66.0,-62.5],[65.7,-62.1],[64.7,-61.5],[64.0,-62.0],[64.3,-63.3],[65.2,-65.8],[64.3,-64.5],[63.7,-63.4],[63.8,-66.1],[64.4,-68.3],[64.9,-69.6],[65.2,-69.1],[65.7,-70.6],[66.3,-72.1],[65.8,-75.2],[66.2,-76.1],[66.9,-75.3],[66.9,-73.2],[67.0,-71.1],[67.3,-71.4],[67.8,-70.9],[68.8,-69.4],[69.2,-69.6],[69.6,-70.0],[70.1,-71.5],[70.5,-73.6],[70.7,-72.9],[71.4,-73.9],[71.5,-74.9],[71.8,-75.7],[71.5,-76.3],[71.4,-78.3],[71.7,-82.3],[72.0,-84.5],[72.2,-86.2],[72.6,-87.1],[73.0,-85.9],[73.1,-87.4],[74.1,-87.6],[75.0,-86.6],[75.3,-85.4],[75.6,-82.4],[75.0,-83.4]],[[75.8,-98.8],[75.6,-97.4],[75.7,-95.4],[74.9,-96.2],[74.5,-94.6],[73.6,-94.9],[73.2,-96.8],[73.3,-97.9],[73.7,-98.6],[74.5,-101.3],[74.6,-99.0],[75.3,-100.2],[75.8,-98.8]],[[74.7,-90.9],[73.9,-92.2],[74.0,-93.4],[74.8,-94.0],[75.4,-93.9],[75.8,-93.3],[76.0,-92.1],[76.0,-89.8],[75.7,-87.6],[74.8,-89.5],[74.7,-90.9]],[[73.4,-121.5],[72.9,-124.3],[73.3,-124.9],[73.8,-127.6],[74.1,-127.3],[75.0,-126.4],[75.6,-125.5],[76.2,-126.8],[76.4,-122.9],[76.2,-121.3],[76.2,-118.3],[75.9,-117.3],[75.5,-116.0],[75.2,-117.4],[74.5,-120.1],[73.8,-121.5],[73.4,-121.5]],[[75.0,137.8],[74.2,137.4],[74.1,133.9],[73.9,132.4],[74.4,130.2],[75.1,130.4],[75.4,131.6],[75.4,134.1],[75.0,137.8]],[[78.7,-96.2],[78.2,-95.4],[77.7,-95.5],[76.9,-96.1],[76.8,-98.0],[77.0,-99.2],[77.6,-99.1],[77.5,-101.1],[78.3,-101.0],[78.2,-99.7],[78.6,-97.9],[78.5,-96.2],[78.7,-96.2]],[[78.2,-107.6],[77.8,-107.2],[78.0,-106.1],[77.9,-104.8],[77.5,-104.8],[77.0,-105.4],[76.8,-109.4],[76.4,-112.2],[76.4,-114.0],[77.1,-111.7],[77.0,-116.9],[77.2,-118.6],[78.2,-117.0],[78.5,-116.0],[78.1,-112.7],[77.5,-110.7],[77.5,-108.7],[78.4,-110.3],[78.8,-109.2],[78.7,-107.9],[78.2,-107.6]],[[68.8,58.5],[68.7,57.9],[68.8,54.9],[69.3,54.8],[69.5,53.1],[70.1,53.0],[70.3,54.0],[70.8,54.0],[71.7,55.9],[71.8,55.0],[72.7,57.2],[73.1,57.1],[73.6,59.1],[74.3,62.0],[74.4,64.9],[74.8,66.5],[74.9,68.1],[74.5,68.7],[74.2,68.1],[73.7,65.1],[73.3,62.4],[72.3,59.5],[71.4,58.2],[70.4,56.6],[69.6,56.8],[68.8,58.5]],[[79.0,-91.7],[78.7,-90.4],[78.6,-88.1],[78.3,-87.2],[77.9,-87.7],[77.7,-86.4],[77.4,-85.7],[77.4,-84.2],[77.2,-82.6],[77.4,-80.7],[77.5,-78.3],[77.4,-76.5],[77.0,-75.5],[76.3,-76.2],[76.1,-77.9],[76.3,-79.3],[76.2,-82.6],[76.2,-84.9],[76.3,-86.7],[76.7,-89.6],[77.3,-89.9],[78.2,-91.0],[78.4,-93.3],[78.7,-94.5],[79.1,-94.1],[79.0,-91.7]],[[79.6,-117.0],[78.9,-117.2],[78.5,-118.0],[78.5,-119.1],[78.0,-121.2],[77.9,-123.0],[78.1,-124.7],[78.8,-122.7],[79.5,-120.4],[79.5,-118.6],[79.6,-117.0]],[[80.0,-92.7],[79.8,-94.5],[80.0,-95.4],[80.4,-95.8],[80.8,-94.2],[80.7,-93.5],[80.3,-92.3],[80.0,-92.7]],[[80.3,-97.6],[79.8,-97.3],[80.0,-99.2],[80.3,-101.2],[80.4,-103.8],[80.7,-102.5],[80.9,-104.0],[81.2,-101.6],[80.8,-98.4],[80.3,-97.6]],[[78.3,25.7],[77.5,28.0],[77.2,25.6],[76.5,24.8],[76.3,23.9],[75.5,23.1],[75.5,22.0],[76.1,20.4],[76.4,21.4],[76.8,20.2],[77.6,18.9],[78.4,18.8],[78.7,21.4],[78.4,21.7],[78.3,22.9],[78.7,23.5],[78.7,24.8],[78.3,25.7]],[[78.9,32.4],[78.5,33.8],[78.0,32.2],[77.9,29.6],[78.1,27.2],[78.5,26.0],[78.9,25.3],[79.2,28.1],[78.9,29.3],[79.1,30.4],[78.9,32.4]],[[78.6,54.0],[78.5,52.9],[78.4,52.1],[78.1,50.9],[78.4,50.1],[78.7,50.6],[78.7,48.8],[78.9,50.5],[78.9,51.7],[78.8,52.4],[79.0,53.2],[78.8,54.3],[78.6,54.0]],[[77.2,95.3],[77.0,93.4],[77.2,91.0],[77.6,89.4],[78.3,88.5],[78.5,87.3],[79.2,89.3],[79.4,90.9],[79.0,92.7],[78.0,95.2],[77.2,95.3]],[[81.4,-81.5],[81.1,-80.2],[80.8,-82.0],[80.1,-84.6],[80.0,-86.7],[80.2,-89.1],[80.6,-90.3],[81.0,-90.0],[81.2,-88.9],[81.3,-91.2],[81.6,-92.4],[82.1,-93.0],[82.5,-91.8],[82.8,-90.8],[82.9,-89.4],[83.1,-89.8],[83.1,-86.8],[82.6,-85.7],[82.3,-83.7],[82.1,-81.8],[81.4,-81.5]],[[84.4,-54.3],[84.2,-51.3],[84.0,-49.3],[83.7,-47.6],[83.5,-48.4],[83.1,-52.0],[83.0,-55.1],[82.8,-56.5],[82.7,-54.1],[82.2,-57.6],[82.0,-59.8],[81.2,-62.8],[81.1,-65.2],[80.9,-66.1],[80.9,-69.7],[80.7,-68.2],[80.6,-69.2],[80.1,-68.5],[79.7,-69.9],[79.5,-71.8],[79.1,-72.7],[78.9,-74.4],[78.6,-72.3],[77.8,-75.7],[78.2,-78.5],[78.1,-82.0],[78.2,-83.7],[78.3,-85.8],[79.0,-83.6],[79.7,-83.9],[79.7,-83.1],[79.3,-80.2],[79.9,-81.5],[80.2,-83.3],[80.5,-82.1],[80.7,-79.9],[81.1,-79.3],[81.5,-80.7],[82.0,-80.9],[81.9,-77.6],[81.8,-76.8],[82.1,-74.5],[82.3,-77.2],[82.3,-81.5],[82.7,-83.5],[83.1,-84.1],[83.4,-85.3],[83.9,-83.2],[83.9,-81.7],[84.0,-78.9],[84.4,-76.4],[84.3,-74.9],[84.0,-74.1],[84.5,-72.1],[84.6,-70.2],[84.7,-67.5],[84.7,-63.7],[84.6,-59.3],[84.5,-56.7],[84.4,-54.3]],[[83.4,-9.6],[82.4,-5.7],[82.1,-8.1],[82.2,-11.9],[82.3,-17.1],[82.1,-13.3],[81.6,-11.2],[81.9,-8.7],[81.0,-10.5],[81.2,-7.5],[81.5,-2.4],[81.2,0.1],[80.7,-0.1],[80.2,-4.8],[80.0,-5.5],[79.9,-8.7],[79.8,-6.6],[79.1,-8.4],[78.5,-9.9],[77.4,-10.6],[76.7,-10.0],[76.7,-11.5],[76.5,-13.4],[75.9,-11.8],[75.0,-12.1],[75.0,-13.2],[74.1,-12.3],[74.1,-14.6],[73.6,-13.6],[73.3,-14.1],[73.2,-15.6],[73.3,-16.9],[72.5,-15.9],[72.1,-16.1],[72.6,-17.9],[72.3,-18.5],[72.0,-17.3],[71.4,-16.2],[70.6,-16.0],[70.4,-17.9],[70.8,-18.6],[71.5,-19.6],[70.8,-19.5],[70.3,-20.8],[70.1,-18.2],[70.0,-16.9],[69.3,-19.7],[68.6,-22.7],[68.3,-25.7],[68.4,-26.8],[68.0,-27.9],[67.0,-29.6],[66.4,-31.9],[66.4,-32.6],[66.2,-34.0],[66.0,-35.5],[65.4,-36.5],[64.7,-36.7],[64.1,-37.3],[63.3,-39.1],[62.5,-38.8],[61.7,-39.4],[60.8,-40.0],[60.8,-41.5],[61.6,-42.9],[61.7,-45.0],[62.3,-45.9],[63.3,-46.4],[64.6,-48.0],[65.2,-48.4],[66.1,-48.4],[67.1,-49.6],[67.8,-49.1],[68.2,-49.7],[69.3,-48.4],[69.7,-46.8],[70.0,-46.3],[70.8,-45.8],[70.5,-47.1],[70.4,-47.8],[70.3,-48.7],[70.6,-49.9],[71.3,-49.8],[71.8,-49.2],[71.8,-48.2],[71.5,-46.2],[72.2,-47.8],[72.5,-48.6],[72.4,-49.7],[72.7,-50.6],[73.6,-49.0],[74.0,-49.5],[74.7,-50.1],[75.8,-50.9],[76.2,-52.1],[76.6,-51.8],[77.3,-54.4],[77.4,-56.6],[77.4,-59.6],[77.4,-62.3],[77.8,-63.4],[78.5,-65.0],[78.7,-61.9],[78.7,-59.6],[79.1,-64.2],[79.5,-66.5],[79.9,-66.1],[80.3,-61.4],[80.7,-56.9],[81.0,-56.1],[81.4,-58.9],[81.8,-57.2],[82.4,-52.5],[82.5,-50.5],[83.1,-47.3],[83.1,-43.5],[83.1,-40.0],[82.7,-39.5],[83.2,-35.5],[82.7,-33.8],[82.6,-32.4],[82.2,-30.9],[82.8,-32.3],[83.2,-31.3],[83.7,-26.3],[83.5,-23.0],[83.8,-20.8],[83.8,-16.8],[83.4,-9.6]],[[71,-156],[70.9,-155.1],[70.8,-153.2],[70.6,-150.4],[70.4,-146.6],[70.1,-143.3],[69.9,-140.4],[69.6,-138.0],[69.4,-136.0],[69.2,-134.0],[69.1,-132.0],[69.0,-130.0],[69.0,-128.0],[68.9,-125.8],[68.8,-123.4],[68.6,-120.9],[68.4,-118.1],[68.2,-115.2],[68.1,-112.1],[68.0,-108.8],[68.0,-105.2],[67.9,-102.3],[67.8,-99.9],[67.6,-98.1],[67.4,-96.9],[67.1,-95.4],[66.9,-93.6],[66.6,-91.6],[66.4,-89.4],[66.0,-87.2],[65.5,-85.1],[64.9,-83.0],[64.1,-81.0],[63.4,-78.6],[62.6,-75.9],[61.9,-72.8],[61.1,-69.2],[60.2,-66.4],[59.2,-64.1],[58.1,-62.5],[56.9,-61.5],[55.6,-60.5],[54.4,-59.5],[53.1,-58.5],[51.9,-57.5],[50.6,-57.3],[49.4,-57.9],[48.1,-59.4],[46.9,-61.6],[45.7,-63.7],[44.6,-65.6],[43.5,-67.2],[42.5,-68.8],[41.5,-70.2],[40.5,-71.6],[39.5,-72.9],[38.5,-74.1],[37.4,-75.3],[36.3,-76.4],[35.1,-77.5],[33.9,-78.5],[32.5,-79.2],[31.0,-79.8],[29.4,-80.0],[27.6,-80.0],[26.6,-80.5],[26.4,-81.5],[26.9,-83.0],[28.1,-85.0],[29.0,-86.9],[29.5,-88.8],[29.6,-90.6],[29.4,-92.4],[29.0,-93.8],[28.5,-94.9],[27.9,-95.8],[27.1,-96.2],[26.2,-96.6],[25.2,-96.9],[24.1,-97.0],[22.9,-97.0],[21.8,-96.9],[20.8,-96.6],[19.9,-96.2],[19.1,-95.8],[18.8,-94.9],[18.8,-93.6],[19.1,-92.0],[19.9,-90.0],[20.1,-88.6],[19.7,-87.7],[18.8,-87.4],[17.2,-87.6],[15.8,-87.4],[14.2,-86.8],[12.8,-85.8],[11.2,-84.2],[10.1,-82.9],[9.2,-81.6],[8.6,-80.5],[8.4,-79.5],[8.4,-79.3],[8.8,-79.9],[9.5,-81.4],[10.5,-83.6],[11.5,-85.9],[12.5,-88.1],[13.5,-90.4],[14.5,-92.6],[15.5,-94.9],[16.5,-97.1],[17.5,-99.4],[18.5,-101.6],[19.4,-103.6],[20.3,-105.4],[21.1,-106.9],[21.9,-108.1],[22.8,-109.3],[23.8,-110.4],[24.9,-111.5],[26.1,-112.5],[27.3,-113.4],[28.4,-114.3],[29.5,-115.1],[30.5,-115.9],[31.6,-116.8],[32.7,-117.8],[33.9,-118.9],[35.1,-120.1],[36.6,-121.2],[38.4,-122.1],[40.4,-122.8],[42.6,-123.2],[44.5,-123.7],[46.0,-124.1],[47.1,-124.4],[47.9,-124.6],[48.8,-125.2],[49.9,-126.1],[51.2,-127.2],[52.8,-128.8],[54.1,-130.4],[55.4,-132.3],[56.5,-134.4],[57.5,-136.6],[58.4,-138.9],[59.1,-141.3],[59.8,-143.8],[60.2,-146.2],[60.4,-148.4],[60.3,-150.3],[59.9,-151.9],[59.1,-153.1],[58.4,-154.5],[57.6,-156.0],[56.9,-157.6],[56.1,-159.4],[55.9,-160.9],[56.1,-162.3],[56.9,-163.5],[58.1,-164.5],[59.3,-164.9],[60.4,-164.8],[61.5,-164.1],[62.5,-162.9],[63.4,-162.1],[64.1,-161.9],[64.8,-162.1],[65.2,-162.9],[65.9,-162.9],[66.8,-162.3],[67.9,-161.0],[69.1,-159.0],[70.1,-157.5],[70.7,-156.5],[71,-156]],[[11,-72],[11.0,-71.6],[11.0,-70.7],[11.0,-69.4],[11.0,-67.6],[10.8,-66.0],[10.4,-64.5],[9.9,-63.1],[9.1,-61.9],[8.4,-60.4],[7.6,-58.8],[6.9,-57.0],[6.1,-55.0],[5.2,-53.4],[4.2,-52.1],[3.1,-51.2],[1.9,-50.8],[0.6,-49.5],[-0.6,-47.5],[-1.9,-44.8],[-3.1,-41.2],[-4.6,-38.8],[-6.2,-37.2],[-8.0,-36.8],[-10.0,-37.2],[-12.1,-37.9],[-14.4,-38.8],[-16.8,-39.9],[-19.2,-41.1],[-21.6,-42.5],[-23.7,-44.0],[-25.6,-45.6],[-27.4,-47.4],[-29.2,-49.1],[-31.1,-50.9],[-33.0,-52.6],[-35.0,-54.4],[-36.8,-56.1],[-38.2,-57.9],[-39.5,-59.6],[-40.5,-61.4],[-41.8,-62.9],[-43.2,-64.3],[-45.0,-65.5],[-47.0,-66.5],[-48.8,-67.2],[-50.4,-67.8],[-51.9,-68.0],[-53.1,-68.0],[-53.9,-68.3],[-54.3,-68.9],[-54.2,-69.9],[-53.8,-71.1],[-52.9,-72.1],[-51.6,-72.9],[-50.0,-73.4],[-48.0,-73.6],[-46.0,-73.8],[-44.0,-73.8],[-42.0,-73.6],[-40.0,-73.4],[-38.1,-73.1],[-36.2,-72.7],[-34.4,-72.2],[-32.6,-71.8],[-30.9,-71.3],[-29.1,-70.9],[-27.4,-70.6],[-25.6,-70.4],[-24.0,-70.2],[-22.5,-70.1],[-21.1,-70.0],[-19.9,-70.0],[-18.7,-70.4],[-17.6,-71.1],[-16.5,-72.2],[-15.5,-73.8],[-14.2,-75.2],[-12.8,-76.6],[-11.0,-77.9],[-9.0,-79.1],[-7.1,-80.0],[-5.4,-80.5],[-3.8,-80.6],[-2.2,-80.4],[-0.8,-80.0],[0.8,-79.5],[2.2,-78.9],[3.8,-78.1],[5.1,-77.6],[6.2,-77.2],[7.1,-77.0],[7.9,-77.0],[8.6,-76.7],[9.2,-76.1],[9.8,-75.1],[10.2,-73.9],[10.6,-72.9],[10.9,-72.3],[11,-72]],[[83,-33],[82.9,-32.1],[82.6,-30.2],[82.2,-27.4],[81.8,-23.6],[81.1,-20.9],[80.2,-19.1],[79.1,-18.4],[77.9,-18.6],[76.6,-19.0],[75.2,-19.5],[73.8,-20.1],[72.2,-20.9],[70.8,-22.4],[69.4,-24.8],[68.1,-28.0],[66.9,-32.0],[65.6,-35.4],[64.4,-38.1],[63.1,-40.2],[61.9,-41.8],[61.3,-43.4],[61.4,-45.3],[62.2,-47.4],[63.8,-49.6],[65.1,-51.3],[66.4,-52.4],[67.5,-53.0],[68.5,-53.0],[69.6,-53.6],[70.9,-54.7],[72.2,-56.4],[73.8,-58.6],[75.1,-60.8],[76.2,-62.9],[77.1,-65.0],[77.9,-67.0],[78.6,-67.2],[79.4,-65.8],[80.1,-62.5],[80.9,-57.5],[81.5,-52.7],[82.0,-48.1],[82.4,-43.6],[82.6,-39.4],[82.8,-36.2],[82.9,-34.1],[83,-33]],[[-74.9,-180],[-74.8,-179.5],[-74.6,-178.5],[-74.4,-177.0],[-74.0,-175.0],[-73.7,-173.0],[-73.3,-171.0],[-72.9,-169.0],[-72.4,-167.0],[-72.0,-165.0],[-71.5,-163.0],[-71.1,-161.0],[-70.6,-159.0],[-70.1,-157.0],[-69.7,-155.0],[-69.2,-153.0],[-68.7,-151.0],[-68.2,-149.0],[-67.8,-147.0],[-67.4,-145.0],[-66.9,-143.0],[-66.5,-141.0],[-66.2,-139.0],[-65.8,-137.0],[-65.5,-135.0],[-65.2,-133.0],[-64.9,-131.0],[-64.7,-129.0],[-64.5,-127.0],[-64.3,-125.0],[-64.2,-123.0],[-64.1,-121.0],[-64.1,-119.0],[-64.1,-117.0],[-64.1,-115.0],[-64.2,-113.0],[-64.2,-111.0],[-64.4,-109.0],[-64.6,-107.0],[-64.8,-105.0],[-65.0,-103.0],[-65.3,-101.0],[-65.6,-99.0],[-66.0,-97.0],[-66.3,-95.0],[-66.7,-93.0],[-67.1,-91.0],[-67.5,-89.0],[-68.0,-87.0],[-68.4,-85.0],[-68.8,-83.0],[-69.3,-81.0],[-69.8,-79.0],[-70.3,-77.0],[-70.7,-75.0],[-71.2,-73.0],[-71.7,-71.0],[-72.1,-69.0],[-72.6,-67.0],[-73.0,-65.0],[-73.4,-63.0],[-73.8,-61.0],[-74.1,-59.0],[-74.4,-57.0],[-74.8,-55.0],[-75.0,-53.0],[-75.3,-51.0],[-75.5,-49.0],[-75.6,-47.0],[-75.8,-45.0],[-75.9,-43.0],[-75.9,-41.0],[-76.0,-39.0],[-75.9,-37.0],[-75.9,-35.0],[-75.8,-33.0],[-75.6,-31.0],[-75.4,-29.0],[-75.2,-27.0],[-75.0,-25.0],[-74.7,-23.0],[-74.4,-21.0],[-74.1,-19.0],[-73.7,-17.0],[-73.4,-15.0],[-73.0,-13.0],[-72.6,-11.0],[-72.1,-9.0],[-71.7,-7.0],[-71.2,-5.0],[-70.7,-3.0],[-70.2,-1.0],[-69.8,1.0],[-69.3,3.0],[-68.8,5.0],[-68.3,7.0],[-67.9,9.0],[-67.4,11.0],[-67.0,13.0],[-66.6,15.0],[-66.3,17.0],[-65.9,19.0],[-65.6,21.0],[-65.3,23.0],[-65.0,25.0],[-64.8,27.0],[-64.6,29.0],[-64.4,31.0],[-64.2,33.0],[-64.1,35.0],[-64.1,37.0],[-64.0,39.0],[-64.1,41.0],[-64.1,43.0],[-64.2,45.0],[-64.4,47.0],[-64.5,49.0],[-64.7,51.0],[-65.0,53.0],[-65.2,55.0],[-65.6,57.0],[-65.9,59.0],[-66.2,61.0],[-66.6,63.0],[-67.0,65.0],[-67.4,67.0],[-67.9,69.0],[-68.3,71.0],[-68.8,73.0],[-69.3,75.0],[-69.7,77.0],[-70.2,79.0],[-70.7,81.0],[-71.2,83.0],[-71.6,85.0],[-72.0,87.0],[-72.5,89.0],[-72.9,91.0],[-73.3,93.0],[-73.7,95.0],[-74.0,97.0],[-74.4,99.0],[-74.7,101.0],[-75.0,103.0],[-75.2,105.0],[-75.4,107.0],[-75.6,109.0],[-75.8,111.0],[-75.8,113.0],[-75.9,115.0],[-75.9,117.0],[-75.9,119.0],[-75.9,121.0],[-75.8,123.0],[-75.7,125.0],[-75.5,127.0],[-75.3,129.0],[-75.1,131.0],[-74.8,133.0],[-74.5,135.0],[-74.2,137.0],[-73.8,139.0],[-73.5,141.0],[-73.1,143.0],[-72.6,145.0],[-72.2,147.0],[-71.8,149.0],[-71.3,151.0],[-70.8,153.0],[-70.3,155.0],[-69.9,157.0],[-69.4,159.0],[-68.9,161.0],[-68.5,163.0],[-68.0,165.0],[-67.6,167.0],[-67.1,169.0],[-66.7,171.0],[-66.3,173.0],[-66.0,175.0],[-65.6,177.0],[-65.4,178.5],[-65.2,179.5],[-65.1,180]]],"\u043a\u0437":[[[47.3,86.6],[46.7,85.9],[46.6,85.1],[45.5,85.1],[45.1,84.6],[45.4,82.6],[43.6,82.0],[43.4,81.5],[43.0,79.6],[41.2,80.5],[41.0,79.8],[40.4,79.9],[40.5,79.3],[40.9,78.8],[41.0,77.4],[41.0,75.7],[40.9,75.4],[41.3,74.0],[41.1,73.5],[40.5,73.3],[40.8,71.7],[40.7,71.1],[40.3,70.9],[40.1,70.3],[39.4,69.0],[38.7,68.6],[38.7,68.2],[39.1,68.0],[39.2,66.7],[40.0,66.6],[40.0,66.1],[41.0,66.2],[41.7,65.0],[41.7,63.3],[41.5,62.2],[42.4,61.3],[42.8,60.5],[43.5,59.0],[43.6,58.8],[43.0,56.3],[39.4,56.3],[39.3,55.8],[40.1,55.2],[40.4,54.5],[40.2,53.4],[39.9,52.9],[40.1,52.9],[40.5,53.2],[40.9,53.0],[41.2,51.8],[42.1,51.4],[42.4,50.9],[42.7,50.9],[42.6,51.8],[43.3,51.9],[43.5,52.7],[43.3,53.5],[44.3,53.7],[44.9,53.6],[44.9,52.6],[45.1,51.8],[44.7,50.6],[44.5,49.8],[44.7,49.3],[45.2,49.4],[45.9,48.8],[45.8,48.1],[46.5,47.3],[47.3,47.8],[47.5,47.6],[48.6,48.4],[48.0,49.3],[48.7,49.5],[49.8,51.5],[49.8,53.0],[49.1,55.1],[48.7,56.2],[49.1,57.2],[49.1,58.7],[48.6,60.0],[48.9,60.3],[48.8,61.6],[49.3,61.8],[50.0,60.3],[50.5,61.2],[50.7,61.0],[51.0,62.0],[51.7,61.3],[52.0,61.7],[52.4,65.3],[52.6,65.8],[53.0,68.2],[53.4,69.0],[53.2,70.7],[52.1,71.1],[52.4,72.0],[52.0,73.3],[51.5,73.2],[51.6,74.1],[52.5,76.5],[52.2,76.1],[51.4,77.4],[48.9,79.6],[49.4,80.0],[48.9,81.4],[49.1,82.8],[49.0,83.3],[48.4,83.8],[48.2,84.4],[47.8,84.9],[47.9,86.1],[47.3,86.6]]]};
+
+/* ---------- ЗВЁЗДЫ ---------- */
+АНИМ['звёзды']=function(x,w,h,t,акц,s){
+  if(!s.т){ s.т=[]; for(var i=0;i<220;i++) s.т.push({x:Math.random(),y:Math.random(),
+      r:0.6+Math.random()*1.9, ф:Math.random()*6.28, с:0.4+Math.random()*1.4}); }
+  s.т.forEach(function(з){
+    var a=0.22+0.5*(0.5+0.5*Math.sin(t*з.с+з.ф));
+    x.beginPath(); x.arc(з.x*w, з.y*h, з.r, 0, 6.2832);
+    x.fillStyle='rgba(207,230,255,'+a.toFixed(3)+')'; x.fill();
+  });
+};
+
+/* ---------- ГЛОБУС ---------- */
+АНИМ['глобус']=function(x,w,h,t,акц,s){
+  var cx=w*0.5, cy=h*0.52, R=Math.min(w,h)*0.40;
+  var lat0=20, lon0=68 - t*4.2;          // медленный поворот, старт на Казахстане
+  var p0=lat0*Math.PI/180;
+  function пр(lat,lon){
+    var p=lat*Math.PI/180, dl=(lon-lon0)*Math.PI/180;
+    var cosc=Math.sin(p0)*Math.sin(p)+Math.cos(p0)*Math.cos(p)*Math.cos(dl);
+    if(cosc<=0.02) return null;
+    return [cx+R*Math.cos(p)*Math.sin(dl),
+            cy-R*(Math.cos(p0)*Math.sin(p)-Math.sin(p0)*Math.cos(p)*Math.cos(dl)), cosc];
+  }
+  // атмосфера
+  var г=x.createRadialGradient(cx,cy,R*0.86,cx,cy,R*1.30);
+  г.addColorStop(0,'rgba(56,225,255,.30)'); г.addColorStop(0.45,'rgba(56,225,255,.10)');
+  г.addColorStop(1,'rgba(56,225,255,0)');
+  x.fillStyle=г; x.beginPath(); x.arc(cx,cy,R*1.30,0,6.2832); x.fill();
+  // сфера
+  var г2=x.createRadialGradient(cx-R*0.35,cy-R*0.40,R*0.12,cx,cy,R);
+  г2.addColorStop(0,'#102F5E'); г2.addColorStop(0.55,'#0A1B3E'); г2.addColorStop(1,'#050C1E');
+  x.beginPath(); x.arc(cx,cy,R,0,6.2832); x.fillStyle=г2; x.fill();
+  x.lineWidth=1.6; x.strokeStyle='rgba(56,225,255,.45)'; x.stroke();
+  // сетка
+  x.lineWidth=1; x.strokeStyle='rgba(56,225,255,.13)';
+  for(var lat=-60; lat<=60; lat+=20){
+    x.beginPath(); var был=false;
+    for(var lon=-180; lon<=180; lon+=4){ var q=пр(lat,lon);
+      if(!q){ был=false; continue } if(!был){ x.moveTo(q[0],q[1]); был=true } else x.lineTo(q[0],q[1]); }
+    x.stroke();
+  }
+  for(var lg=-180; lg<180; lg+=20){
+    x.beginPath(); var б2=false;
+    for(var la=-88; la<=88; la+=4){ var q2=пр(la,lg);
+      if(!q2){ б2=false; continue } if(!б2){ x.moveTo(q2[0],q2[1]); б2=true } else x.lineTo(q2[0],q2[1]); }
+    x.stroke();
+  }
+  // суша
+  x.lineWidth=1.5; x.strokeStyle='rgba(120,200,255,.62)';
+  x.fillStyle='rgba(18,52,116,.55)';
+  ЗЕМЛЯ.суша.forEach(function(л){
+    x.beginPath(); var б=false, n=0;
+    for(var i=0;i<л.length;i++){ var q=пр(л[i][0],л[i][1]);
+      if(!q){ if(б){ x.stroke(); } б=false; x.beginPath(); continue }
+      if(!б){ x.moveTo(q[0],q[1]); б=true } else x.lineTo(q[0],q[1]); n++; }
+    if(б) x.stroke();
+  });
+  // Казахстан
+  var кз=ЗЕМЛЯ.кз[0], путь=[];
+  x.beginPath(); var б3=false;
+  for(var i=0;i<кз.length;i++){ var q=пр(кз[i][0],кз[i][1]);
+    if(!q){ б3=false; continue }
+    if(!б3){ x.moveTo(q[0],q[1]); б3=true } else x.lineTo(q[0],q[1]); путь.push(q); }
+  if(путь.length>8){
+    x.closePath(); x.fillStyle='rgba(56,225,255,.30)'; x.fill();
+    x.lineWidth=2.4; x.strokeStyle='#38E1FF'; x.stroke();
+    // Астана
+    var а=пр(51.1,71.4);
+    if(а){
+      var пульс=(t*0.8)%1;
+      x.beginPath(); x.arc(а[0],а[1], 6+26*пульс, 0, 6.2832);
+      x.strokeStyle='rgba(255,79,216,'+(0.85*(1-пульс)).toFixed(3)+')'; x.lineWidth=2.2; x.stroke();
+      x.beginPath(); x.arc(а[0],а[1],5.5,0,6.2832); x.fillStyle='#FFE9FA'; x.fill();
+      x.font='500 22px system-ui,sans-serif'; x.fillStyle='rgba(232,251,255,.92)';
+      x.fillText('Астана', а[0]+22, а[1]-12);
+    }
+  }
+  // терминатор: лёгкое затемнение справа
+  var г3=x.createLinearGradient(cx-R,cy,cx+R,cy);
+  г3.addColorStop(0,'rgba(0,0,0,0)'); г3.addColorStop(0.55,'rgba(0,0,0,0)');
+  г3.addColorStop(1,'rgba(2,6,16,.55)');
+  x.save(); x.beginPath(); x.arc(cx,cy,R,0,6.2832); x.clip(); x.fillStyle=г3;
+  x.fillRect(cx-R,cy-R,2*R,2*R); x.restore();
+};
+
+
 function ак(c,a){ // цвет с альфой
   var m=/^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(c);
   if(!m) return c;
@@ -1695,6 +2128,22 @@ function превью(){
       im.onerror=проба; im.src=v;
     })();
   });
+  /* живое превью: кладём prev_<код>.mp4 поверх картинки, если файла нет, видео само убирается */
+  document.querySelectorAll('[data-превью]').forEach(function(q){
+    if(q.querySelector('video')) return;
+    var к=q.dataset.превью;
+    var v=document.createElement('video');
+    v.className='живое'; v.dataset.скрутить='нет';
+    v.muted=true; v.loop=true; v.autoplay=true; v.playsInline=true; v.preload='auto';
+    v.setAttribute('muted',''); v.setAttribute('playsinline',''); v.setAttribute('loop','');
+    v.poster='media/prev_'+к+'.jpg';
+    var запас=['media/prev_'+к+'.mp4','media/prev_'+к+'.webm'], ш2=0;
+    v.onerror=function(){ if(ш2<запас.length){ v.src=запас[ш2++]; v.load();
+        var п3=v.play(); if(п3&&п3.catch) п3.catch(function(){}) } else { v.remove() } };
+    v.src=запас[ш2++];
+    q.appendChild(v);
+    var пуск2=v.play(); if(пуск2&&пуск2.catch) пуск2.catch(function(){});
+  });
 }
 превью();
 
@@ -1735,14 +2184,16 @@ function медиа(){
               c.getContext('2d').drawImage(v,0,0,300,184);
               var im=new Image(); im.src=c.toDataURL('image/jpeg',0.8);
               im.title='видео'; im.dataset.видео=src;
-              im.onclick=function(){ поставитьГлавным(src,true,im) };
+              im.dataset.стр=String(3+n);
+              im.onclick=function(){ вРаздел(к, 3+n) };
               пол.appendChild(im);
             };
           };
           v.onerror=проба; 
         } else {
           var im2=new Image();
-          im2.onload=function(){ im2.onclick=function(){ поставитьГлавным(src,false,im2) }; пол.appendChild(im2) };
+          im2.onload=function(){ im2.dataset.стр=String(3+n);
+            im2.onclick=function(){ вРаздел(к, 3+n) }; пол.appendChild(im2) };
           im2.onerror=проба; im2.src=src;
         }
       })();
@@ -1760,6 +2211,37 @@ function медиа(){
 }
 медиа();
 
+/* подгоняем ширину бокса страницы-экрана под пропорции самого экрана */
+function подгонЭкранов(){
+  document.querySelectorAll('.медиабокс[data-прп]').forEach(function(б){
+    var пр=parseFloat(б.dataset.прп||'0'); if(!(пр>0)) return;
+    var кол=б.closest('.экранная'); if(!кол) return;
+    кол.style.flex='1 1 auto';
+    var hb=б.clientHeight; if(!hb) return;
+    кол.style.flex='0 0 '+Math.round(hb*пр+2)+'px';
+  });
+  document.querySelectorAll('.эс_бокс').forEach(function(б){
+    var м=б.querySelector('img,video'); if(!м) return;
+    function прим(){
+      var пр=parseFloat(б.dataset.прп||'0');
+      var w=м.naturalWidth||м.videoWidth||0, h=м.naturalHeight||м.videoHeight||0;
+      if(пр>0){ w=пр; h=1 }
+      if(!w||!h) return;
+      б.style.maxWidth='none';
+      var hb=б.clientHeight; if(!hb) return;
+      б.style.width='100%';
+      б.style.maxWidth=Math.round(hb*w/h)+'px';
+      б.style.marginLeft='auto'; б.style.marginRight='auto';
+    }
+    if(б.dataset.прп){ прим(); return }
+    if(м.tagName==='IMG'){ if(м.complete&&м.naturalWidth) прим(); else м.addEventListener('load',прим) }
+    else { if(м.videoWidth) прим(); else м.addEventListener('loadedmetadata',прим) }
+  });
+}
+подгонЭкранов();
+addEventListener('resize', подгонЭкранов);
+setTimeout(подгонЭкранов, 1200);
+
 /* ===================== НАВИГАЦИЯ ===================== */
 var все=[].slice.call(document.querySelectorAll('.экран'));
 var спина=все.filter(function(э){ return э.dataset.род!=='раздел' });
@@ -1774,34 +2256,61 @@ function показать(э){
   тек=э;
   все.forEach(function(q){ q.classList.toggle('вкл', q===э) });
   var i=спина.indexOf(э);
-  счёт.textContent = i>=0 ? String(i+1).padStart(2,'0')+' / '+String(спина.length).padStart(2,'0')
-                          : (э.dataset.к||'').toUpperCase()+'  '+(+э.dataset.кадр+1)+' / 4';
+  var м=(typeof поз!=='undefined') ? поз+1 : 0;
+  var всего=(typeof ЛЕНТА!=='undefined') ? ЛЕНТА.length : 0;
+  счёт.textContent = (э.dataset.род==='раздел'
+      ? (э.dataset.к||'').toUpperCase()+'  '+(+э.dataset.кадр+1)+' / '+((разделы[э.dataset.к]||[]).length||4)+'   '
+      : '') + (всего? String(м).padStart(2,'0')+' / '+String(всего).padStart(2,'0') : '');
   [].slice.call(нав.children).forEach(function(b,j){ b.classList.toggle('вкл', j===i) });
-  document.querySelectorAll('video.фонвидео').forEach(function(v){
-    if(э.contains(v)){ var q=v.play(); if(q&&q.catch) q.catch(function(){}) } else { try{v.pause()}catch(e){} }
+  document.querySelectorAll('video').forEach(function(v){
+    if(э.contains(v)){ try{ if(v.currentTime>0.1 && v.dataset.скрутить!=='нет') v.currentTime=0 }catch(e){}
+      var q=v.play(); if(q&&q.catch) q.catch(function(){}) }
+    else { try{v.pause()}catch(e){} }
   });
+  if(э.dataset.род==='раздел'){
+    var пл=document.querySelector('.плитка[data-открыть="'+э.dataset.к+'"]');
+    if(пл) пл.classList.add('пройдена');
+  }
   пуск(э);
 }
-function наХаб(){ показать(хаб) }
+function наХаб(){
+  if(typeof ЛЕНТА==='undefined'){ показать(хаб); return }
+  вЛенту(хабДоТекущей());
+}
 function вРаздел(код,кадр){
   var r=разделы[код]; if(!r) return;
-  кадр=Math.max(0,Math.min(3,кадр||0));
-  показать(r[кадр]);
+  кадр=Math.max(0,Math.min(r.length-1,кадр||0));
+  if(typeof ЛЕНТА==='undefined'){ показать(r[кадр]); return }
+  вЛенту(ЛЕНТА.indexOf(r[кадр]));
 }
-function шаг(d){
-  if(тек.dataset.род==='раздел'){
-    var к=тек.dataset.к, n=+тек.dataset.кадр+d;
-    if(n<0||n>3){ наХаб() } else { вРаздел(к,n) }
-  } else {
-    var i=спина.indexOf(тек)+d;
-    if(i<0) i=0; if(i>=спина.length) i=спина.length-1;
-    показать(спина[i]);
-  }
+/* единая лента показа: спина до хаба, затем каждая компания и возврат на главную, затем финал */
+var хабИ = спина.indexOf(хаб);
+var ЛЕНТА = [];
+var ХАБМЕСТА = [];
+спина.slice(0, хабИ).forEach(function(э){ ЛЕНТА.push(э) });
+ХАБМЕСТА.push(ЛЕНТА.length); ЛЕНТА.push(хаб);
+коды.forEach(function(к){
+  разделы[к].forEach(function(э){ ЛЕНТА.push(э) });
+  ХАБМЕСТА.push(ЛЕНТА.length); ЛЕНТА.push(хаб);
+});
+спина.slice(хабИ+1).forEach(function(э){ ЛЕНТА.push(э) });
+
+var поз = 0;
+function вЛенту(i){
+  поз = Math.max(0, Math.min(ЛЕНТА.length-1, i));
+  показать(ЛЕНТА[поз]);
+}
+function шаг(d){ вЛенту(поз + d) }
+/* ближайшее место хаба начиная с текущей позиции назад */
+function хабДоТекущей(){
+  var лучш = ХАБМЕСТА[0];
+  ХАБМЕСТА.forEach(function(i){ if(i <= поз) лучш = i });
+  return лучш;
 }
 
 var нав=document.getElementById('нав'), счёт=document.getElementById('счёт');
 спина.forEach(function(_,i){ var b=document.createElement('b');
-  b.onclick=function(e){ e.stopPropagation(); показать(спина[i]) }; нав.appendChild(b) });
+  b.onclick=function(e){ e.stopPropagation(); вЛенту(ЛЕНТА.indexOf(спина[i])) }; нав.appendChild(b) });
 
 document.querySelectorAll('.плитка[data-открыть]').forEach(function(п){
   п.onclick=function(e){ e.stopPropagation(); вРаздел(п.dataset.открыть,0) };
@@ -1819,15 +2328,16 @@ addEventListener('keydown',function(e){
   else if(k>='1'&&k<='9'){
     var n=+k-1;
     if(тек===хаб || тек.dataset.род==='раздел'){ if(коды[n]) вРаздел(коды[n],0) }
-    else if(спина[n]) показать(спина[n]);
+    else if(спина[n]) вЛенту(ЛЕНТА.indexOf(спина[n]));
   }
   else if(k==='h'||k==='H'||k==='р'||k==='Р'){ наХаб() }
-  else if(k==='Home'){ показать(спина[0]) }
-  else if(k==='End'){ показать(спина[спина.length-1]) }
+  else if(k==='Home'){ вЛенту(0) }
+  else if(k==='End'){ вЛенту(ЛЕНТА.length-1) }
   else if(k==='f'||k==='F'||k==='а'||k==='А'){
     document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen() }
 });
-рамка.addEventListener('click',function(e){ шаг(e.clientX < innerWidth*0.2 ? -1 : 1) });
+рамка.addEventListener('click',function(){ шаг(1) });
+рамка.addEventListener('contextmenu',function(e){ e.preventDefault(); шаг(-1) });
 
 /* ===================== ЗАПУСК АНИМАЦИЙ ===================== */
 var живой=null;
